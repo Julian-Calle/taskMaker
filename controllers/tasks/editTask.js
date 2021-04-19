@@ -2,19 +2,24 @@ const editTask = async (req, res, next) => {
   let connection;
   try {
     connection = await req.app.locals.getDB();
-    const { task } = req.body;
-    const { task_id } = req.params;
+    const { task, checked, timeLimit, color, type } = req.body;
+    const { taskId } = req.params;
+
     await connection.query(
       `
-    UPDATE tasks SET taks=? where id=?;
+    UPDATE tasks SET taks=?,checked=?,timeLimit=?,color=? where id=?;
     `,
-      [task, task_id]
+      [task, checked, timeLimit, color, type, taskId]
     );
     res.send({
       status: "ok",
       data: {
-        task_id,
+        taskId,
         task,
+        checked,
+        timeLimit,
+        color,
+        type,
       },
     });
   } catch (error) {
@@ -23,3 +28,4 @@ const editTask = async (req, res, next) => {
     if (connection) connection.release();
   }
 };
+module.exports = editTask;

@@ -16,6 +16,7 @@ const {
   deleteTask,
   deleteAllCheckedTasks,
   editTask,
+  filterTasks,
 } = require("./controllers/tasks");
 
 // #################################################################
@@ -49,20 +50,24 @@ if (process.env.NODE_ENV === "development") {
 // #                     Endpoints de task                     #
 // #############################################################
 //GET - Petición para añadir una
-//URL ejemplo: http://localhost:3000/createTask
-app.post("/task", createTask);
+//URL ejemplo: http://localhost:3000/createTask/:userId
+app.post("/task/:userId", createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
-app.delete("/tasks/:task_id", deleteTask);
+app.delete("/tasks/:taskId", deleteTask);
 
 //DELETE - Eliminar las task checkeadas
 //URL ejemplo_ http://localhost:3000/tasks/checked/1"
-app.delete("/tasks/:task_id", deleteAllCheckedTasks);
+app.delete("/tasks/:taskId", deleteAllCheckedTasks);
 
 //PUT - Editar una task
 //URL ejemplo: http://localhost:3000/tasks/3
-app.put("/tasks/:task_id", editTask);
+app.put("/tasks/:taskId", editTask);
+
+//GET - Filtrar tasks
+//URL ejemplo: http://localhost:3000/tasks/2
+app.get("/tasks/:userId", filterTasks);
 
 // ################################################################
 // #                     Endpoints de usuario                     #
