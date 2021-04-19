@@ -1,3 +1,6 @@
+const { validator, createError } = require("../../helpers");
+const { createTaskSchema } = require("../../schemas");
+
 const createTask = async (req, res, next) => {
   let connection;
   try {
@@ -5,6 +8,7 @@ const createTask = async (req, res, next) => {
     const { userId } = req.params;
     const { task, color, type, timeLimit } = req.body;
 
+    await validator(createTaskSchema, req.body);
     //TODO verificar que sólo se puede crear una task un usuario autentificado
 
     let taskFields = ["task"];
