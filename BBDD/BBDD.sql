@@ -11,13 +11,12 @@ use taskmaker;
 CREATE TABLE IF NOT EXISTS users (
 id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(50),
-email VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL UNIQUE,
 password VARCHAR(512) NOT NULL,
 verified TINYINT DEFAULT 0,
 registrationCode TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 photo VARCHAR(50) DEFAULT 'urlFoto.svg',
 validationCode CHAR(50),
-shared TINYINT DEFAULT 0,
 -- membersList variable multiple, investigar
 recoveryDate DATETIME,
 lastAuthDate DATETIME,
@@ -31,6 +30,7 @@ checked TINYINT NOT NULL DEFAULT 0,
 userId INTEGER UNSIGNED NOT NULL,
 timeLimit DATETIME,
 color ENUM("blue","red","yellow","grey","pink","white") DEFAULT "white",
+shared TINYINT DEFAULT 0,
 type VARCHAR(50),
 CONSTRAINT tasks_users_fk1 FOREIGN KEY (userId)
 	REFERENCES users(id),
