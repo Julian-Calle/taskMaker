@@ -19,6 +19,8 @@ const {
   filterTasks,
 } = require("./controllers/tasks");
 
+const { createUser } = require("./controllers/users");
+
 // #################################################################
 // #                      Configuramos express                     #
 // #################################################################
@@ -72,6 +74,10 @@ app.get("/tasks/:userId", filterTasks);
 // ################################################################
 // #                     Endpoints de usuario                     #
 // ################################################################
+
+//GET - Petición para añadir una
+//URL ejemplo: http://localhost:3000/createTask/:userId
+app.post("/user/new", createUser);
 
 // #################################################################
 // #                 Endpoints not found y error                   #
