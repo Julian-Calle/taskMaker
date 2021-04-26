@@ -17,7 +17,10 @@ const {
   deleteAllCheckedTasks,
   editTask,
   filterTasks,
+  listTypesByUSer,
 } = require("./controllers/tasks");
+
+const { createUser } = require("./controllers/users");
 
 // #################################################################
 // #                      Configuramos express                     #
@@ -51,7 +54,7 @@ if (process.env.NODE_ENV === "development") {
 // #############################################################
 //GET - Petición para añadir una
 //URL ejemplo: http://localhost:3000/createTask/:userId
-app.post("/task/:userId", createTask);
+app.post("/tasks/:userId", createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
@@ -69,9 +72,17 @@ app.put("/tasks/:taskId", editTask);
 //URL ejemplo: http://localhost:3000/tasks/2
 app.get("/tasks/:userId", filterTasks);
 
+//GET - Obtner lista de tipos definida por usuaio
+//URL ejemplo: http://localhost:3000/tasks/2
+app.get("/tasks/types/:userId", listTypesByUSer);
+
 // ################################################################
 // #                     Endpoints de usuario                     #
 // ################################################################
+
+//GET - Petición para añadir una
+//URL ejemplo: http://localhost:3000/createTask/:userId
+app.post("/user/new", createUser);
 
 // #################################################################
 // #                 Endpoints not found y error                   #
