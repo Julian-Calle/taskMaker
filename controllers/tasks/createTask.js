@@ -5,11 +5,10 @@ const createTask = async (req, res, next) => {
   let connection;
   try {
     connection = await req.app.locals.getDB();
-    const { userId } = req.params;
+
     const { task, color, type, timeLimit } = req.body;
 
     await validator(createTaskSchema, req.body);
-    //TODO verificar que sólo se puede crear una task un usuario autentificado
 
     let taskFields = ["task"];
     let taskValues = [task];
@@ -38,7 +37,7 @@ const createTask = async (req, res, next) => {
     INSERT INTO tasks (userId, ${taskFields.join(", ")})
     VALUES
     (${taskVariables.join(", ")})`,
-      [userId, ...taskValues]
+      [req.userId, ...taskValues]
     );
 
     let result = { task };

@@ -3,14 +3,11 @@ const listTypesByUSer = async (req, res, next) => {
   try {
     connection = await req.app.locals.getDB();
 
-    // TODO hace un middeware que revise si es un id correcto
-    const { userId } = req.params;
-
     const [listOfTypes] = await connection.query(
       `
     SELECT type FROM tasks WHERE userId = ?
     `,
-      [userId]
+      [req.userId]
     );
 
     const data = listOfTypes.reduce((acc, item) => {
@@ -18,7 +15,6 @@ const listTypesByUSer = async (req, res, next) => {
 
       return acc;
     }, []);
-
     res.send({
       status: "ok",
       data,

@@ -60,7 +60,7 @@ if (process.env.NODE_ENV === "development") {
 // #############################################################
 //GET - Petición para añadir una
 //URL ejemplo: http://localhost:3000/createTask/:userId
-app.post("/tasks/:userId", isAuthorized, createTask);
+app.post("/tasks", isAuthorized, createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
@@ -76,11 +76,11 @@ app.put("/tasks/:taskId", editTask);
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2
-app.get("/tasks/:userId", filterTasks);
+// app.get("/tasks/:userId", filterTasks);
 
 //GET - Obtner lista de tipos definida por usuaio
-//URL ejemplo: http://localhost:3000/tasks/:userID
-app.get("/tasks/types/:userId", listTypesByUSer);
+//URL ejemplo: http://localhost:3000/tasks/types
+app.get("/tasks/types", isAuthorized, listTypesByUSer);
 
 // ################################################################
 // #                     Endpoints de usuario                     #
