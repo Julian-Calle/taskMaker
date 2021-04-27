@@ -51,8 +51,8 @@ const addUser = async (req, res, next) => {
 
     await connection.query(
       `
-     INSERT INTO users (name, email, password, validationCode)
-     VALUES(?, ?, SHA2(?, 512), ?)`,
+     INSERT INTO users (name, email, password, validationCode, lastAuthDate)
+     VALUES(?, ?, SHA2(?, 512), ?, CURDATE())`,
       [name, email, password, validationCode]
     );
 
