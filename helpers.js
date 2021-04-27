@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 /**
  *
  * @param {string} message - Descripción del error
@@ -25,4 +27,13 @@ async function validator(schema, valueToValidate) {
   }
 }
 
-module.exports = { createError, validator };
+/**
+ * Genera una cadena de caracteres aleatoria
+ * @param {number} length - Longitud que queremos que tenga la cadena
+ * @returns {string} Cadena de caracteres aleatorios
+ */
+function generateRandomString(length) {
+  return crypto.randomBytes(length).toString("hex");
+}
+
+module.exports = { createError, validator, generateRandomString };
