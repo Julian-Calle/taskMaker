@@ -38,7 +38,6 @@ async function sendMail({ to, subject, body, name, introMessage }) {
   }
 }
 
-
 /**
  * Facilita la creación de errores HTTP
  * @param {string} message - Descripción del error
@@ -123,9 +122,6 @@ async function validator(schema, valueToValidate) {
   }
 }
 
-<<<<<<< HEAD
-module.exports = { createError, validator, sendMail, createGreetings };
-=======
 /**
  * Genera una cadena de caracteres aleatoria
  * @param {number} length - Longitud que queremos que tenga la cadena
@@ -136,4 +132,3 @@ function generateRandomString(length) {
 }
 
 module.exports = { createError, validator, generateRandomString, sendMail };
->>>>>>> 8402e55ad8c704e65491746b407a2a09767dddde
