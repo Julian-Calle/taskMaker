@@ -48,4 +48,9 @@ const createUserSchema = Joi.object().keys({
   password: textRequiredValidator("password", 100, 8),
 });
 
-module.exports = { createTaskSchema, createUserSchema };
+const loginSchema = Joi.object().keys({
+  email: textRequiredValidator("email", 100),
+  password: textRequiredValidator("password", 100),
+});
+
+module.exports = { createTaskSchema, createUserSchema, loginSchema };

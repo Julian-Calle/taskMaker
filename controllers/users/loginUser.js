@@ -1,11 +1,14 @@
-const { createError } = require("../../helpers");
+const { createError, validator } = require("../../helpers");
+const { loginSchema } = require("./../../schemas");
 const jwt = require("jsonwebtoken");
+
 const loginUser = async (req, res, next) => {
   let connection;
   try {
     connection = await req.app.locals.getDB();
     const { email, password } = req.body;
-    //todo validar body
+
+    await validator(loginSchema, req.body);
 
     const [user] = await connection.query(
       `
