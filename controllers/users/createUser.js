@@ -1,9 +1,17 @@
-const { createError } = require("../../helpers");
+const {
+  createError,
+  validator,
+  generateRandomString,
+} = require("../../helpers");
+const { createUserSchema } = require("../../schemas");
 
 const addUser = async (req, res, next) => {
   let connection;
+
   try {
     connection = await req.app.locals.getDB();
+
+    await validator(createUserSchema, req.body);
 
     const { name, email, password } = req.body;
 
@@ -13,7 +21,7 @@ const addUser = async (req, res, next) => {
       SELECT *
       FROM users 
       WHERE email = ?
-    `,
+      `,
       [email]
     );
 
@@ -21,11 +29,16 @@ const addUser = async (req, res, next) => {
       throw createError("Ya existe un usuario registrado con ese email", 409);
     }
 
+    // Creamos un código que servirá para validar el correo del usuario
+    const validationCode = generateRandomString(25);
+    console.log(validationCode.length);
+    //TODO enviar e-mail de confirmación al usuario
+
     await connection.query(
       `
-  INSERT INTO users (name, email, password)
-  VALUES(?, ?, SHA2(?, 512))`,
-      [name, email, password]
+     INSERT INTO users (name, email, password, validationCode)
+     VALUES(?, ?, SHA2(?, 512), ?)`,
+      [name, email, password, validationCode]
     );
 
     const [newUser] = await connection.query(
