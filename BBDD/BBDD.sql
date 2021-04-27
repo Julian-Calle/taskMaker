@@ -14,7 +14,7 @@ name VARCHAR(50),
 email VARCHAR(100) NOT NULL UNIQUE,
 password VARCHAR(512) NOT NULL,
 verified TINYINT DEFAULT 0,
-registrationCode TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+registrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 photo VARCHAR(50) DEFAULT 'urlFoto.svg',
 validationCode CHAR(50),
 -- membersList variable multiple, investigar
