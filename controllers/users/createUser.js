@@ -2,6 +2,7 @@ const {
   createError,
   validator,
   generateRandomString,
+  sendMail,
 } = require("../../helpers");
 const { createUserSchema } = require("../../schemas");
 
@@ -31,8 +32,22 @@ const addUser = async (req, res, next) => {
 
     // Creamos un código que servirá para validar el correo del usuario
     const validationCode = generateRandomString(25);
-    console.log(validationCode.length);
-    //TODO enviar e-mail de confirmación al usuario
+
+    //Enviamos un correo al usuario para validar su perfil
+    //TODO: modificar (de ser necesario) la ruta de validación que se le envía al usuario
+    const emailBody = `
+ 
+    Pulsa en este link para validar tu email y comenzar aumentar tu rendimiento sin límites: 
+    <strong>${process.env.REACT_PORT}/users/validate/${validationCode}</strong>. 
+      `;
+
+    await sendMail({
+      to: email,
+      subject: `¡Bienvenid@ a Task Maker!`,
+      body: emailBody,
+      name,
+      introMessage: "Bienvenido",
+    });
 
     await connection.query(
       `
