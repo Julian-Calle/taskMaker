@@ -1,7 +1,44 @@
 const crypto = require("crypto");
+const sgMail = require("@sendgrid/mail");
+
+// Configuramos sendgrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 /**
- *
+ * Envía un correo electrónico personalizado
+ * @param {string} to - Email del destinatario
+ * @param {string} subject - Asunto del correo
+ * @param {string} body - Contenido del correo
+ * @param {string} name - Nombre del destinatario
+ * @param {string} introMessage - Saludo inicial del correo (Buenos días, Hola, etc.)
+ */
+async function sendMail({ to, subject, body, name, introMessage }) {
+  // Instrucciones: https://www.npmjs.com/package/@sendgrid/mail
+  try {
+    const msg = {
+      to,
+      from: process.env.SENDGRID_FROM, // Use the email address or domain you verified above
+      subject,
+      text: body,
+      html: `
+      <h1>${introMessage} ${name}</h1>
+        <div>
+          <h2>${subject}</h2>
+          <p>${body}</p>
+          <br>
+          <strong><i><u>TaskMaker</u> "Let's synergy <u>together</u>"</i></strong>
+        </div>
+      `,
+    };
+
+    await sgMail.send(msg);
+  } catch (error) {
+    throw new Error("Error enviando mail");
+  }
+}
+
+/**
+ * Facilita la creación de errores HTTP
  * @param {string} message - Descripción del error
  * @param {number} numHttpStatus - Código de error HTTP
  * @returns {error} Error preparado para el endpoint de error
@@ -36,4 +73,4 @@ function generateRandomString(length) {
   return crypto.randomBytes(length).toString("hex");
 }
 
-module.exports = { createError, validator, generateRandomString };
+module.exports = { createError, validator, generateRandomString, sendMail };
