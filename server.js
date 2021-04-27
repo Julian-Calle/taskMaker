@@ -20,7 +20,13 @@ const {
   listTypesByUSer,
 } = require("./controllers/tasks");
 
-const { createUser } = require("./controllers/users");
+const {
+  createUser,
+  loginUser,
+  validateUser,
+  editUser,
+} = require("./controllers/users");
+const { isAuthorized } = require("./middlewares");
 
 // #################################################################
 // #                      Configuramos express                     #
@@ -54,7 +60,7 @@ if (process.env.NODE_ENV === "development") {
 // #############################################################
 //GET - Petición para añadir una
 //URL ejemplo: http://localhost:3000/createTask/:userId
-app.post("/tasks/:userId", createTask);
+app.post("/tasks/:userId", isAuthorized, createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
@@ -73,7 +79,7 @@ app.put("/tasks/:taskId", editTask);
 app.get("/tasks/:userId", filterTasks);
 
 //GET - Obtner lista de tipos definida por usuaio
-//URL ejemplo: http://localhost:3000/tasks/2
+//URL ejemplo: http://localhost:3000/tasks/:userID
 app.get("/tasks/types/:userId", listTypesByUSer);
 
 // ################################################################
@@ -84,6 +90,17 @@ app.get("/tasks/types/:userId", listTypesByUSer);
 //URL ejemplo: http://localhost:3000/createTask/:userId
 app.post("/user/new", createUser);
 
+//GET - hacer log in
+//URL ejemplo: http://localhost:3000/login
+app.post("/login", loginUser);
+
+//GET - Validar el email de un usuario
+//URL ejemplo_ http://localhost:3000/users/validate/a13a9ab9392...
+app.get("/users/validate/:validationCode", validateUser);
+
+//PUT - Modifica los datos de un usuario
+//URL ejemplo http:http://localhost:3000/users
+app.put("/users/", editUser); //TODO Falta coger el ususario del token
 // #################################################################
 // #                 Endpoints not found y error                   #
 // #################################################################
