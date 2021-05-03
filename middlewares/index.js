@@ -1,3 +1,3 @@
-const isAuthorized = require("./isAuthorized");
-
-module.exports = { isAuthorized };
+const isAuthorized = require('./isAuthorized');
+const ifTaskExists = require('./ifTaskExists');
+module.exports = { isAuthorized, ifTaskExists };

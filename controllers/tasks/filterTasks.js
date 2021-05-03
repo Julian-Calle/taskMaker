@@ -3,14 +3,21 @@ const filterTasks = async (req, res, next) => {
 
   try {
     connection = await req.app.locals.getDB();
-    let { type, color, checked, timeLimit, order, direction } = req.body;
-    const { userId } = req.params;
-    const orderBy = order ? order : "id";
-    const orderDirection = direction ? direction : "ASC";
+    let { type, color, checked, timeLimit, order, direction } = req.query;
+    const orderBy = order ? order : 'id';
+    const orderDirection = direction ? direction : 'ASC';
 
     const [results] = await connection.query(
       `
-    SELECT * FROM tasks WHERE (type=? OR ?) AND (color=? OR ?)  AND (checked=? OR ?) AND  (timeLimit=? OR ?) AND  (order=? OR ?) AND  (direction=? OR ?) AND id=?;
+    SELECT * FROM tasks 
+    WHERE 
+        (type=? OR ?) AND 
+        (color=? OR ?)  AND 
+        (checked=? OR ?) AND  
+        (timeLimit=? OR ?) AND 
+        userId=?
+    ORDER BY  ? ?
+        ;
     `,
       [
         type,
@@ -21,16 +28,16 @@ const filterTasks = async (req, res, next) => {
         !checked,
         timeLimit,
         !timeLimit,
-        order,
-        !order,
-        direction,
-        !direction,
-        userId,
+        req.userId,
+        orderBy,
+        orderDirection,
       ]
     );
+    console.log(results);
+    console.log(req.userId);
     res.send({
-      status: "ok",
-      data: [...filtro],
+      status: 'ok',
+      data: [...results],
     });
   } catch (error) {
     next(error);

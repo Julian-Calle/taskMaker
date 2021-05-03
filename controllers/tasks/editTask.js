@@ -5,21 +5,35 @@ const editTask = async (req, res, next) => {
     const { task, checked, timeLimit, color, type } = req.body;
     const { taskId } = req.params;
 
+    const editedTask = task ? task : req.selectedTask.task;
+    const editedChecked = checked ? checked : req.selectedTask.checked;
+    const editedTimeLimit = timeLimit ? timeLimit : req.selectedTask.timeLimit;
+    const editColor = color ? color : req.selectedTask.color;
+    const editedType = type ? type : req.selectedTask.type;
     await connection.query(
       `
-    UPDATE tasks SET taks=?,checked=?,timeLimit=?,color=? where id=?;
+    UPDATE tasks SET task=?,checked=?,timeLimit=?,color=?,type=? WHERE id=? AND userId=?;
     `,
-      [task, checked, timeLimit, color, type, taskId]
+      [
+        editedTask,
+        editedChecked,
+        editedTimeLimit,
+        editColor,
+        editedType,
+        taskId,
+        req.userId,
+      ]
     );
     res.send({
-      status: "ok",
+      status: 'ok',
       data: {
         taskId,
-        task,
-        checked,
-        timeLimit,
-        color,
-        type,
+        editedTask,
+        editedChecked,
+        editedTimeLimit,
+        editColor,
+        editedType,
+        userId: req.userId,
       },
     });
   } catch (error) {
