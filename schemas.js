@@ -110,6 +110,10 @@ const editTaskSchema = Joi.object().keys({
 const editUserSchema = Joi.object().keys({
   email: textRequiredValidator('email', 100),
 });
+const editPasswordSchema = Joi.object().keys({
+  oldPassword: textRequiredValidator('oldPassword', 100),
+  newPassword: textRequiredValidator('newPassword', 100, 8),
+});
 
 module.exports = {
   createTaskSchema,
@@ -117,4 +121,5 @@ module.exports = {
   loginSchema,
   editTaskSchema,
   editUserSchema,
+  editPasswordSchema,
 };

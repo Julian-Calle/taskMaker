@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan'); // Solo modo developer
-const bodyParser = require('body-parser'); //depreciated
+// const bodyParser = require("body-parser"); Obsoleto
 const fileUpload = require('express-fileupload');
 const { PORT } = process.env;
 const getDB = require('./db');
@@ -101,11 +101,15 @@ app.get('/users/validate/:validationCode', validateUser);
 
 //PUT - Validar el email de un usuario
 //URL ejemplo_ http://localhost:3000/users/validate/a13a9ab9392...
-app.get('/users/validateEmail/:validationCode/:email', validateEmail);
+app.put('/users/validateEmail/:validationCode/:email', validateEmail);
 
 //PUT - Modifica los datos de un usuario
-//URL ejemplo http://localhost:3000/users
+//URL ejemplo http:http://localhost:3000/users
 app.put('/users', isAuthorized, editUser);
+
+//PUT - Modifica la contraseña de un usuario
+//URL ejemplo http:http://localhost:3000/users
+app.put('/pepe', isAuthorized, editPassword);
 
 // #################################################################
 // #                 Endpoints not found y error                   #
