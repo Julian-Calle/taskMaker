@@ -26,6 +26,7 @@ const {
   validateUser,
   editUser,
   validateEmail,
+  editPassword,
 } = require('./controllers/users');
 const { isAuthorized, ifTaskExists, isUser } = require('./middlewares');
 
