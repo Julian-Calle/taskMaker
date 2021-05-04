@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan"); // Solo modo developer
-const bodyParser = require("body-parser"); //depreciated
+// const bodyParser = require("body-parser"); Obsoleto
 const fileUpload = require("express-fileupload");
 const { PORT } = process.env;
 const getDB = require("./db");
