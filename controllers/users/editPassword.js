@@ -1,22 +1,18 @@
 const { validator, createError } = require("../../helpers");
+const { editPasswordSchema } = require("../../schemas");
 
 const editPassword = async (req, res, next) => {
   let connection;
   try {
     connection = await req.app.locals.getDB();
-    // Recoger de req.params el id de usario al que tengo que cambiar la contraseña
-    isId(user_id);
+    const userId = req.userId;
+
+    // Comprobamos que los parámetros de entrada son correctos
     await validator(editPasswordSchema, req.body);
+
     // Recoger de req.body oldPassword y newPassword
     const { oldPassword, newPassword } = req.body;
 
-    // Comprobar que el usuario que viene del token es el mismo al que queremos cambiar la pass
-    if (req.userAuth.id !== Number(user_id)) {
-      throw createError(
-        "No tienes permisos para cambiar la contraseña de este usuario",
-        403
-      );
-    }
     // Comprobar que la contraseña antigua es correcta
     const [current] = await connection.query(
       `
@@ -24,8 +20,15 @@ const editPassword = async (req, res, next) => {
      FROM users
      WHERE id=? AND password=SHA2(?, 512)
    `,
-      [user_id, oldPassword]
+      [userId, oldPassword]
     );
+
+    if (oldPassword === newPassword) {
+      throw createError(
+        "La contraseña nueva no puede ser igual que la anterior",
+        401
+      );
+    }
 
     if (current.length === 0) {
       throw createError("La contraseña actual no es correcta", 401);
@@ -35,10 +38,10 @@ const editPassword = async (req, res, next) => {
     await connection.query(
       `
      UPDATE users
-     SET password=SHA2(?, 512), last_auth_date=?
+     SET password=SHA2(?, 512), lastAuthDate=?
      WHERE id=?
    `,
-      [newPassword, new Date(), user_id]
+      [newPassword, new Date(), userId]
     );
 
     res.send({
