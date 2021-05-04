@@ -1,4 +1,11 @@
-const { createError, generateRandomString } = require('../../helpers');
+const {
+  createError,
+  generateRandomString,
+  validator,
+  sendMail,
+  createGreetings,
+} = require('../../helpers');
+const { editUserSchema } = require('../../schemas');
 const editUser = async (req, res, next) => {
   let connection;
   let mailMessage = '';
@@ -10,12 +17,14 @@ const editUser = async (req, res, next) => {
     //Solamente podemos cambiar el mail
     let { email } = req.body;
 
+    //Valido el body
+    await validator(editUserSchema, req.body);
+
     //Obtenemos la info del user de la peticion de isAuthorized guardada en req.user
-    console.log(req.user);
-    lastAuthDate = new Date(currentData[0].lastAuthDate);
+    lastAuthDate = new Date(req.user.lastAuthDate);
 
     //Si el email es diferente lo procesamos
-    if (email && email !== currentData[0].email) {
+    if (email && email !== req.user.email) {
       //Actualizamos lastAuthDate
       lastAuthDate = new Date();
       //Comprobamos que el mail no esté ya en uso
@@ -26,33 +35,45 @@ const editUser = async (req, res, next) => {
         WHERE email=?`,
         [email]
       );
-      if (existingMail.length > 0) {
+      console.log(existingEmail);
+      if (existingEmail.length > 0) {
         throw createError(
           'Ya existe un usuario en la base de datos con el email proporcionado',
           409
         );
       }
       //Creamos un código de validación (contraseña temporal de un solo uso)
-      const registrationCode = generateRandomString(40);
-      updateFields.push(
-        `email='${email}'`,
-        `validationCode='${registrationCode}'`
-      );
+      const registrationCode = generateRandomString(10);
+
       // Enviamos un mail al usuario con el link de confirmación de email
+      const url = 'link'.link(
+        `${process.env.PUBLIC_HOST}/users/validateEmail/${registrationCode}/${email}`
+      );
       const emailBody = `
       Acabas de modificar tu email de registro en <strong>taskMaker<strong>.
-      Pulsa en este link para validar tu nuevo email: <strong> ${process.env.PUBLIC_HOST}/users/validateEmail/${registrationCode}/${email}<strong>.
+      Pulsa en este ${url} para validar tu nuevo email: <strong> <a href="${process.env.PUBLIC_HOST}/users/validateEmail/${registrationCode}/${email}">link<a><strong>.
       `;
+      console.log(registrationCode);
+      await connection.query(
+        `
+      UPDATE users 
+      SET validationCode=?
+      WHERE id=?`,
+        [registrationCode, req.user.id]
+      );
+      console.log(req.user.name);
       await sendMail({
         to: email,
         subject: `Valida tu nevo email para continuar el proceso de cambio de email en taskMaker`,
         body: emailBody,
-        userName,
+        userName: req.user.name,
         introMessage: createGreetings(),
       });
       //Añadimos aviso para revisar correo a la respuesta
       mailMessage = 'Revisa tu email para validar la nueva dirección';
-      updateFields.push('verified = 0');
+    } else {
+      mailMessage =
+        'El email introducido coincide con el email actual del usuario.';
     }
     //Obtenemos la info del usuario a modificar (necesita confirmarse por email antes de efectuar cambios)
     const [userEdited] = await connection.query(

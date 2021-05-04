@@ -1,6 +1,6 @@
-const crypto = require("crypto");
+const crypto = require('crypto');
 
-const sgMail = require("@sendgrid/mail");
+const sgMail = require('@sendgrid/mail');
 
 // Configuramos sendgrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -34,7 +34,7 @@ async function sendMail({ to, subject, body, name, introMessage }) {
 
     await sgMail.send(msg);
   } catch (error) {
-    throw new Error("Error enviando mail");
+    throw new Error('Error enviando mail');
   }
 }
 
@@ -55,7 +55,7 @@ function createError(message, numHttpStatus) {
  * @returns {string} Cadena de caracteres aleatorios
  */
 function generateRandomString(length) {
-  return crypto.randomBytes(length).toString("hex");
+  return crypto.randomBytes(length).toString('hex');
 }
 
 /**
@@ -73,4 +73,26 @@ async function validator(schema, valueToValidate) {
   }
 }
 
-module.exports = { createError, validator, generateRandomString, sendMail };
+/**
+ * Crea un saludo en función de la hora actual
+ * @returns {string} Saludo en función de la hora
+ */
+function createGreetings() {
+  const now = new Date();
+  const hour = now.getHours();
+
+  if (hour > 7) {
+    return 'Buenos días';
+  } else if (hour > 14 && hour < 20) {
+    return 'Buenas tardes';
+  } else {
+    return 'Buenas noches';
+  }
+}
+module.exports = {
+  createError,
+  validator,
+  generateRandomString,
+  sendMail,
+  createGreetings,
+};

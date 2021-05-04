@@ -1,3 +1,4 @@
 const isAuthorized = require('./isAuthorized');
 const ifTaskExists = require('./ifTaskExists');
-module.exports = { isAuthorized, ifTaskExists };
+const isUser = require('./isUser');
+module.exports = { isAuthorized, ifTaskExists, isUser };

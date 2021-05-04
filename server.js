@@ -27,7 +27,7 @@ const {
   editUser,
   validateEmail,
 } = require('./controllers/users');
-const { isAuthorized, ifTaskExists } = require('./middlewares');
+const { isAuthorized, ifTaskExists, isUser } = require('./middlewares');
 
 // #################################################################
 // #                      Configuramos express                     #
@@ -73,7 +73,7 @@ app.delete('/tasks/:taskId', deleteAllCheckedTasks);
 
 //PUT - Editar una task
 //URL ejemplo: http://localhost:3000/tasks/3
-app.put('/tasks/:taskId', isAuthorized, ifTaskExists, editTask);
+app.put('/tasks/:taskId', isAuthorized, ifTaskExists, isUser, editTask);
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2
@@ -101,13 +101,12 @@ app.get('/users/validate/:validationCode', validateUser);
 
 //PUT - Validar el email de un usuario
 //URL ejemplo_ http://localhost:3000/users/validate/a13a9ab9392...
-app.put('/users/validateEmail/:validationCode/:email', validateEmail);
+app.get('/users/validateEmail/:validationCode/:email', validateEmail);
 
 //PUT - Modifica los datos de un usuario
-//URL ejemplo http:http://localhost:3000/users
+//URL ejemplo http://localhost:3000/users
 app.put('/users', isAuthorized, editUser);
 
-//PUT -
 // #################################################################
 // #                 Endpoints not found y error                   #
 // #################################################################

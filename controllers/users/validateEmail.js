@@ -7,7 +7,7 @@ const validateEmail = async (req, res, next) => {
 
     const { validationCode, email } = req.params;
     //Comprobar que hay un usuario en la base de datos pendiente de validar con ese código
-
+    console.log(validationCode);
     const [user] = await connection.query(
       `
             SELECT id
