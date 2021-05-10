@@ -1,12 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const morgan = require('morgan'); // Solo modo developer
+require("dotenv").config();
+const express = require("express");
+const morgan = require("morgan"); // Solo modo developer
 // const bodyParser = require("body-parser"); Obsoleto
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 const { PORT } = process.env;
-const getDB = require('./db');
-const cors = require('cors');
-const path = require('path');
+const getDB = require("./db");
+const cors = require("cors");
+const path = require("path");
 
 // #################################################################
 // #             Importamos controllers y middlewares              #
@@ -18,7 +18,8 @@ const {
   editTask,
   filterTasks,
   listTypesByUSer,
-} = require('./controllers/tasks');
+  sendTask,
+} = require("./controllers/tasks");
 
 const {
   createUser,
@@ -27,8 +28,8 @@ const {
   editUser,
   validateEmail,
   editPassword,
-} = require('./controllers/users');
-const { isAuthorized, ifTaskExists, isUser } = require('./middlewares');
+} = require("./controllers/users");
+const { isAuthorized, ifTaskExists, isUser } = require("./middlewares");
 
 // #################################################################
 // #                      Configuramos express                     #
@@ -49,12 +50,12 @@ app.use(
 // Cors (permite peticiones externas)
 app.use(cors());
 //Archivos estaticos (habilitar carpeta uploads)
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, "uploads")));
 // Body parser (multipart form data <- subida de imágenes)
 app.use(fileUpload());
 // Logger (solo se empleará durante el desarrollo)
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
 }
 
 // #############################################################
@@ -62,27 +63,31 @@ if (process.env.NODE_ENV === 'development') {
 // #############################################################
 //GET - Petición para añadir una
 //URL ejemplo: http://localhost:3000/tasks
-app.post('/tasks', isAuthorized, createTask);
+app.post("/tasks", isAuthorized, createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
-app.delete('/tasks/:taskId', deleteTask);
+app.delete("/tasks/:taskId", deleteTask);
 
 //DELETE - Eliminar las task checkeadas
 //URL ejemplo_ http://localhost:3000/tasks/checked/1"
-app.delete('/tasks/:taskId', deleteAllCheckedTasks);
+app.delete("/tasks/:taskId", deleteAllCheckedTasks);
 
 //PUT - Editar una task
 //URL ejemplo: http://localhost:3000/tasks/3
-app.put('/tasks/:taskId', isAuthorized, ifTaskExists, isUser, editTask);
+app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isUser, editTask);
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2
-app.get('/tasks', isAuthorized, filterTasks);
+app.get("/tasks", isAuthorized, filterTasks);
 
 //GET - Obtner lista de tipos definida por usuaio
 //URL ejemplo: http://localhost:3000/tasks/types
-app.get('/tasks/types', isAuthorized, listTypesByUSer);
+app.get("/tasks/types", isAuthorized, listTypesByUSer);
+
+//GET - Enviar un email con el contenido de la task
+//URL ejemplo: http://localhost:3000/tasks/types
+app.post("/tasks/send", isAuthorized, sendTask);
 
 // ################################################################
 // #                     Endpoints de usuario                     #
@@ -90,27 +95,27 @@ app.get('/tasks/types', isAuthorized, listTypesByUSer);
 
 //GET - Petición para añadir una
 //URL ejemplo: http://localhost:3000/createTask/:userId
-app.post('/user/new', createUser);
+app.post("/user/new", createUser);
 
 //GET - hacer log in
 //URL ejemplo: http://localhost:3000/login
-app.post('/login', loginUser);
+app.post("/login", loginUser);
 
 //GET - Validar el email de un usuario
 //URL ejemplo_ http://localhost:3000/users/validate/a13a9ab9392...
-app.get('/users/validate/:validationCode', validateUser);
+app.get("/users/validate/:validationCode", validateUser);
 
 //PUT - Validar el email de un usuario
 //URL ejemplo_ http://localhost:3000/users/validate/a13a9ab9392...
-app.put('/users/validateEmail/:validationCode/:email', validateEmail);
+app.put("/users/validateEmail/:validationCode/:email", validateEmail);
 
 //PUT - Modifica los datos de un usuario
 //URL ejemplo http:http://localhost:3000/users
-app.put('/users', isAuthorized, editUser);
+app.put("/users", isAuthorized, editUser);
 
 //PUT - Modifica la contraseña de un usuario
 //URL ejemplo http:http://localhost:3000/users
-app.put('/pepe', isAuthorized, editPassword);
+app.put("/pepe", isAuthorized, editPassword);
 
 // #################################################################
 // #                 Endpoints not found y error                   #
@@ -120,7 +125,7 @@ app.put('/pepe', isAuthorized, editPassword);
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(error.httpStatus || 500).send({
-    status: 'error',
+    status: "error",
     message: error.message,
   });
 });
@@ -128,8 +133,8 @@ app.use((error, req, res, next) => {
 // Middleware de 404
 app.use((req, res) => {
   res.status(404).send({
-    status: 'error',
-    message: 'Not found',
+    status: "error",
+    message: "Not found",
   });
 });
 
