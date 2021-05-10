@@ -37,3 +37,14 @@ CONSTRAINT tasks_users_fk1 FOREIGN KEY (userId)
 CONSTRAINT task_checked_ck1 CHECK (checked = 1 OR checked = 0) -- Hacemos que el campo administrador se asemeje a un booleano
 
 );
+
+CREATE TABLE IF NOT EXISTS membersList(
+id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+taskId INTEGER UNSIGNED NOT NULL,
+userId INTEGER UNSIGNED NOT NULL,
+CONSTRAINT memberList_users_fk1 FOREIGN KEY (userId)
+    REFERENCES users(id),
+CONSTRAINT memberList_tasks_fk2 FOREIGN KEY (taskId)
+	REFERENCES task(id),
+CONSTRAINT memberList_uc1 (taskId,userId)
+);
