@@ -45,6 +45,6 @@ userId INTEGER UNSIGNED NOT NULL,
 CONSTRAINT memberList_users_fk1 FOREIGN KEY (userId)
     REFERENCES users(id),
 CONSTRAINT memberList_tasks_fk2 FOREIGN KEY (taskId)
-	REFERENCES task(id),
-CONSTRAINT memberList_uc1 (taskId,userId)
+	REFERENCES tasks(id),
+CONSTRAINT memberList_uc1 UNIQUE(taskId,userId)
 );

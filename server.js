@@ -29,7 +29,12 @@ const {
   validateEmail,
   editPassword,
 } = require("./controllers/users");
-const { isAuthorized, ifTaskExists, isUser } = require("./middlewares");
+const {
+  isAuthorized,
+  ifTaskExists,
+  isUser,
+  isMember,
+} = require("./middlewares");
 
 // #################################################################
 // #                      Configuramos express                     #
@@ -67,7 +72,7 @@ app.post("/tasks", isAuthorized, createTask);
 
 //DELETE - Eliminar una task
 //URL ejemplo_ http://localhost:3000/tasks/1"
-app.delete("/tasks/:taskId", deleteTask);
+app.delete("/tasks/:taskId", deleteTask); //todo hay que cambiarla para decidir que hacer en caso de que sea compartida
 
 //DELETE - Eliminar las task checkeadas
 //URL ejemplo_ http://localhost:3000/tasks/checked/1"
@@ -75,7 +80,7 @@ app.delete("/tasks/:taskId", deleteAllCheckedTasks);
 
 //PUT - Editar una task
 //URL ejemplo: http://localhost:3000/tasks/3
-app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isUser, editTask);
+app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isUser, editTask); //todo hay que cambiarla para decidir que hacer en caso de que sea compartida
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2
@@ -86,8 +91,8 @@ app.get("/tasks", isAuthorized, filterTasks);
 app.get("/tasks/types", isAuthorized, listTypesByUSer);
 
 //GET - Enviar un email con el contenido de la task
-//URL ejemplo: http://localhost:3000/tasks/types
-app.post("/tasks/send", isAuthorized, sendTask);
+//URL ejemplo: http://localhost:3000/tasks/send/:taskId"
+app.post("/tasks/send/:userId/:taskId", isAuthorized, isMember, sendTask);
 
 // ################################################################
 // #                     Endpoints de usuario                     #

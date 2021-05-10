@@ -14,7 +14,8 @@ async function main() {
     console.log("****************************");
     console.log("* Borrando tablas antiguas *");
     console.log("****************************");
-
+    await connection.query(`DROP TABLE IF EXISTS membersList`);
+    console.log("Tabla de membersList eliminada");
     await connection.query(`DROP TABLE IF EXISTS tasks`);
     console.log("Tabla de tasks eliminada");
     await connection.query(`DROP TABLE IF EXISTS users`);
@@ -48,6 +49,11 @@ VALUES
 INSERT INTO tasks (task, checked, userId)
 VALUES 
 ("ir a dar clase", 0, 2)
+`);
+
+    await connection.query(`
+INSERT INTO membersList (taskId, userId)
+VALUES (1,1),(2,2),(3,3)
 `);
 
     //añadir valores a tablas
