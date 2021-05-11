@@ -42,7 +42,7 @@ VALUES
 INSERT INTO tasks (task, checked, userId, color,type)
 VALUES 
 ("ir a morfar", 0, 1, "blue","Urgente"),
-("ir a cambiarme la napie", 0, 3, "red","Bromas")
+("ir a cambiarme la napia", 0, 3, "red","Bromas")
 `);
 
     await connection.query(`

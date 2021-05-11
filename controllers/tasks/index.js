@@ -5,6 +5,7 @@ const editTask = require("./editTask");
 const filterTasks = require("./filterTasks");
 const listTypesByUSer = require("./listTypesByUSer");
 const sendTask = require("./sendTask");
+const shareTask = require("./shareTask");
 
 module.exports = {
   createTask,
@@ -14,4 +15,5 @@ module.exports = {
   filterTasks,
   listTypesByUSer,
   sendTask,
+  shareTask,
 };

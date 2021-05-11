@@ -1,17 +1,16 @@
-// const { loginSchema } = require("../../schemas");
-const { createError } = require("../helpers");
+const { idSchema } = require("../schemas");
+const { createError, validator } = require("../helpers");
 
 const isMember = async (req, res, next) => {
   let connection;
   try {
     connection = await req.app.locals.getDB();
 
-    const { userId, taskId } = req.params;
-    // console.log(userId);
-    // console.log(taskId);
+    const { taskId } = req.params;
+
     //valido los valores del body
     //todo validar param con un schema
-    // await validator(editTaskSchema, req.body);
+    await validator(idSchema, taskId);
 
     const [result] = await connection.query(
       `
@@ -19,7 +18,7 @@ const isMember = async (req, res, next) => {
     FROM tasks  t JOIN membersList m 
     ON t.id =m.taskId WHERE m.userId= ? AND m.taskId =?;
     `,
-      [userId, taskId]
+      [req.userId, taskId]
     );
     //si no hay ningun resultado es que el userId o taskId no es correcto
     if (result.length === 0) {

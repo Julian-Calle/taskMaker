@@ -16,8 +16,6 @@ const sendTask = async (req, res, next) => {
 
     sendMail({ to: email, subject, body, name, introMessage });
 
-    //todo no se envía el email
-
     res.send({
       status: "ok",
       data: { to: email, name, task: body },

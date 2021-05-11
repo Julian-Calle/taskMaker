@@ -19,6 +19,7 @@ const {
   filterTasks,
   listTypesByUSer,
   sendTask,
+  shareTask,
 } = require("./controllers/tasks");
 
 const {
@@ -84,7 +85,7 @@ app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isUser, editTask); //todo 
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2
-app.get("/tasks", isAuthorized, filterTasks);
+app.get("/tasks", isAuthorized, filterTasks); //todo hay que tener en cuenta también las task que son compartidas
 
 //GET - Obtner lista de tipos definida por usuaio
 //URL ejemplo: http://localhost:3000/tasks/types
@@ -92,7 +93,16 @@ app.get("/tasks/types", isAuthorized, listTypesByUSer);
 
 //GET - Enviar un email con el contenido de la task
 //URL ejemplo: http://localhost:3000/tasks/send/:taskId"
-app.post("/tasks/send/:userId/:taskId", isAuthorized, isMember, sendTask);
+app.post("/tasks/send/:taskId", isAuthorized, isMember, sendTask);
+
+//GET - compartir la task con otro usuario
+//URL ejemplo: http://localhost:3000/tasks/share/:taskId/:invitedUserId"
+app.get(
+  "/tasks/share/:taskId/:invitedUserId",
+  isAuthorized,
+  isMember,
+  shareTask
+);
 
 // ################################################################
 // #                     Endpoints de usuario                     #

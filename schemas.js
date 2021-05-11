@@ -55,10 +55,31 @@ const numBetweenOneAndZeroValidator = (varName) => {
     });
 };
 
+/**
+ *
+ * @param {String} varName :Nombre de la variable number a validar
+ */
+const numIntegerPositiveRequireValidator = (varName) => {
+  return Joi.number()
+    .integer()
+    .required()
+    .min(1)
+    .messages({
+      "number.base": `${varName} debe ser de tipo 'number'`,
+      "number.integer": `${varName} debe ser un valor entero`,
+      "number.min": `${varName} debe mayor que 0`,
+      "number.empty": `${varName}  no puede estar vacío`,
+      "number.required": `${varName} es un campo requerido`,
+    });
+};
+
+const idSchema = numIntegerPositiveRequireValidator("taskId");
+
 const sendEmailSchema = Joi.object().keys({
   name: textRequiredValidator("name", 50, 1),
   email: textRequiredValidator("email", 100, 5),
 });
+
 /**
  *
  * @param {String} varName :Nombre de la variable requerida de tipo date a ser validada
@@ -128,4 +149,5 @@ module.exports = {
   editUserSchema,
   editPasswordSchema,
   sendEmailSchema,
+  idSchema,
 };
