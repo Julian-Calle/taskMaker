@@ -1,5 +1,5 @@
-const { validator, createError } = require('../../helpers');
-const { createTaskSchema } = require('../../schemas');
+const { validator, createError } = require("../../helpers");
+const { createTaskSchema } = require("../../schemas");
 
 const createTask = async (req, res, next) => {
   let connection;
@@ -10,44 +10,51 @@ const createTask = async (req, res, next) => {
 
     await validator(createTaskSchema, req.body);
 
-    let taskFields = ['task'];
+    let taskFields = ["task"];
     let taskValues = [task];
-    let taskVariables = ['?', '?'];
+    let taskVariables = ["?", "?"];
 
     if (color) {
-      taskFields.push('color');
+      taskFields.push("color");
       taskValues.push(color);
-      taskVariables.push('?');
+      taskVariables.push("?");
     }
     if (type) {
-      taskFields.push('type');
+      taskFields.push("type");
       taskValues.push(type);
-      taskVariables.push('?');
+      taskVariables.push("?");
     }
     if (timeLimit) {
-      taskFields.push('timeLimit');
+      taskFields.push("timeLimit");
       taskValues.push(new Date(timeLimit));
-      taskVariables.push('?');
+      taskVariables.push("?");
     }
-    console.log(taskFields.join(', '));
-    console.log(taskValues.join(', '));
 
+    //creamos la task
+    const [createdTask] = await connection.query(
+      `
+    INSERT INTO tasks (userId, ${taskFields.join(", ")})
+    VALUES
+    (${taskVariables.join(", ")})`,
+      [req.userId, ...taskValues]
+    );
+
+    // incluimos al propio creador en la lista de miembros
     await connection.query(
       `
-    INSERT INTO tasks (userId, ${taskFields.join(', ')})
-    VALUES
-    (${taskVariables.join(', ')})`,
-      [req.userId, ...taskValues]
+    INSERT INTO membersList (taskId, userId)
+    VALUES (?,?)
+    `,
+      [createdTask.insertId, req.userId]
     );
 
     let result = { task };
     for (let i = 1; i < taskFields.length; i++) {
       result[`${taskFields[i]}`] = taskValues[i];
     }
-    console.log(result);
 
     res.send({
-      status: 'ok',
+      status: "ok",
       data: { ...result },
     });
   } catch (error) {
