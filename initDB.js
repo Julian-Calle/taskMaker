@@ -1,8 +1,8 @@
-require("dotenv").config();
-const getDB = require("./db.js");
-const fs = require("fs").promises;
+require('dotenv').config();
+const getDB = require('./db.js');
+const fs = require('fs').promises;
 
-if (process.env.NODE_ENV !== "development") process.exit();
+if (process.env.NODE_ENV !== 'development') process.exit();
 
 let connection;
 
@@ -11,24 +11,24 @@ async function main() {
     connection = await getDB();
 
     // borrar tablas si existen
-    console.log("****************************");
-    console.log("* Borrando tablas antiguas *");
-    console.log("****************************");
+    console.log('****************************');
+    console.log('* Borrando tablas antiguas *');
+    console.log('****************************');
     await connection.query(`DROP TABLE IF EXISTS membersList`);
-    console.log("Tabla de membersList eliminada");
+    console.log('Tabla de membersList eliminada');
     await connection.query(`DROP TABLE IF EXISTS tasks`);
-    console.log("Tabla de tasks eliminada");
+    console.log('Tabla de tasks eliminada');
     await connection.query(`DROP TABLE IF EXISTS users`);
-    console.log("Tabla de users eliminada");
+    console.log('Tabla de users eliminada');
 
     //leer script sql
-    console.log("Leyendo BBDD");
-    const sqlScript = await (await fs.readFile("./BBDD/BBDD.sql")).toString();
+    console.log('Leyendo BBDD');
+    const sqlScript = await (await fs.readFile('./BBDD/BBDD.sql')).toString();
     await connection.query(sqlScript);
 
-    console.log("**********************************************************");
-    console.log("* Tablas antiguas borradas, iniciando creación de tablas *");
-    console.log("**********************************************************");
+    console.log('**********************************************************');
+    console.log('* BBDD cargado, iniciando creación de datos... *');
+    console.log('**********************************************************');
 
     await connection.query(`
 INSERT INTO users (name,email,password,verified)

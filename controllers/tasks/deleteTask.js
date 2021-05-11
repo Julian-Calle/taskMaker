@@ -1,19 +1,24 @@
+const { createError } = require('../../helpers');
+
 const deleteTask = async (req, res, next) => {
   let connection;
 
   try {
     connection = await req.app.locals.getDB();
 
-    //Para eliminar el taks, pedimos (de momento)el id del taks por params
-    const { task_id } = req.params;
-
-    const [task] = await connection.query(
+    //Elimino todos los user de la tabla memberList si es el propietario
+    if (req.selectedTask.userId !== req.user.id) {
+      throw createError('Solo puedes borrar la task el propietario');
+    }
+    await connection.query(
       `
-        DELETE * FROM tasks WHERE id=?,[${task_id}]; `
+      DELETE FROM membersList WHERE taskId = ?;
+      DELETE FROM tasks WHERE (id = ? AND userId= ?);`,
+      [req.selectedTask.id, req.user.id, req.selectedTask.id, req.user.id]
     );
     res.send({
-      status: "ok",
-      data: `El "task" con id ${task_id} ha sido borrado`,
+      status: 'ok',
+      data: `El 'task' con id ${req.selectedTask.id} ha sido borrado`,
     });
   } catch (error) {
     next(error);
