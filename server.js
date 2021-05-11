@@ -93,7 +93,7 @@ app.get("/tasks/types", isAuthorized, listTypesByUSer);
 
 //GET - Enviar un email con el contenido de la task
 //URL ejemplo: http://localhost:3000/tasks/send/:taskId"
-app.post("/tasks/send/:taskId", isAuthorized, isMember, sendTask);
+app.post("/tasks/send/:taskId", isAuthorized, isMember, sendTask); //todo falta verificar si la task existe
 
 //GET - compartir la task con otro usuario
 //URL ejemplo: http://localhost:3000/tasks/share/:taskId/:invitedUserId"
