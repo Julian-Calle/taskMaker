@@ -36,6 +36,7 @@ const {
   ifTaskExists,
   isUser,
   isMember,
+  ifInvitedUserExist,
 } = require('./middlewares');
 
 // #################################################################
@@ -100,8 +101,10 @@ app.post('/tasks/send/:taskId', isAuthorized, isMember, sendTask); //todo falta 
 //URL ejemplo: http://localhost:3000/tasks/share/:taskId/:invitedUserId"
 app.get(
   '/tasks/share/:taskId/:invitedUserId',
+  ifTaskExists,
   isAuthorized,
   isMember,
+  ifInvitedUserExist,
   shareTask
 );
 

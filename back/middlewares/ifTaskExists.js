@@ -1,4 +1,4 @@
-const { createError } = require('../helpers');
+const { createError } = require("../helpers");
 
 const ifTaskExists = async (req, res, next) => {
   let connection;
@@ -11,7 +11,7 @@ SELECT * FROM tasks WHERE id=?`,
       [taskId]
     );
     if (result.length === 0)
-      throw createError(`No existe tasks con id ${taskId}`);
+      throw createError(`No existe tasks con id ${taskId}`, 404);
     req.selectedTask = result[0];
 
     next();
