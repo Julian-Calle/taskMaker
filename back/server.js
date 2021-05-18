@@ -20,6 +20,7 @@ const {
   listTypesByUSer,
   sendTask,
   shareTask,
+  kickOut,
 } = require("./controllers/tasks");
 
 const {
@@ -36,6 +37,7 @@ const {
   isUser,
   isMember,
   ifInvitedUserExist,
+  isCreator,
 } = require("./middlewares");
 
 // #################################################################
@@ -105,6 +107,16 @@ app.get(
   isMember,
   ifInvitedUserExist,
   shareTask
+);
+//GET - Eliminar a un usuario de la lista de miebros de unsa task
+//URL ejemplo: http://localhost:3000/tasks/kickOut/:taskId/:invitedUserId"
+app.delete(
+  "/tasks/kickOut/:taskId/:invitedUserId",
+  ifTaskExists,
+  isAuthorized,
+  isCreator,
+  ifInvitedUserExist,
+  kickOut
 );
 
 // ################################################################
