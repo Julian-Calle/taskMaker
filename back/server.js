@@ -102,8 +102,8 @@ app.post("/tasks/send/:taskId", isAuthorized, isMember, sendTask); //todo falta 
 //URL ejemplo: http://localhost:3000/tasks/share/:taskId/:invitedUserId"
 app.get(
   "/tasks/share/:taskId/:invitedUserId",
-  ifTaskExists,
   isAuthorized,
+  ifTaskExists,
   isMember,
   ifInvitedUserExist,
   shareTask
