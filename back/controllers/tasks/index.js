@@ -7,6 +7,7 @@ const listTypesByUSer = require('./listTypesByUSer');
 const sendTask = require('./sendTask');
 const shareTask = require('./shareTask');
 const unsuscribeMemberList = require('./unsuscribeMemberList');
+const kickOut = require('./kickOut');
 
 module.exports = {
   createTask,
@@ -18,4 +19,5 @@ module.exports = {
   sendTask,
   unsuscribeMemberList,
   shareTask,
+  kickOut
 };
