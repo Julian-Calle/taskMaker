@@ -9,7 +9,7 @@ const isMember = async (req, res, next) => {
     const { taskId } = req.params;
 
     //valido los valores del body
-    //todo validar param con un schema
+
     await validator(idSchema, taskId);
 
     const [result] = await connection.query(
