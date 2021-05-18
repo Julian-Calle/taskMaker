@@ -20,6 +20,7 @@ const {
   listTypesByUSer,
   sendTask,
   shareTask,
+  unsuscribeMemberList,
 } = require('./controllers/tasks');
 
 const {
@@ -102,6 +103,15 @@ app.get(
   isAuthorized,
   isMember,
   shareTask
+);
+
+//GET - darse de baja de una tasks
+//
+app.get(
+  'tasks/memberList/:taskId',
+  isAuthorized,
+  ifTaskExists,
+  unsuscribeMemberList
 );
 
 // ################################################################

@@ -18,7 +18,9 @@ const editTask = async (req, res, next) => {
 
     await connection.query(
       `
-    UPDATE tasks SET task=?,checked=?,timeLimit=?,color=?,type=? WHERE id=? AND userId=?;
+    UPDATE tasks SET task=?,checked=?,timeLimit=?,color=?,type=? WHERE
+     id=? AND 
+     userId IN (SELECT userId FROM memberList WHERE taskId=?);
     `,
       [
         editedTask,
@@ -28,11 +30,10 @@ const editTask = async (req, res, next) => {
         editedType,
         taskId,
         req.userId,
+        taskId,
       ]
     );
-    console.log(
-      (await connection.query(`SELECT * FROM tasks WHERE id=?`, [taskId]))[0]
-    );
+
     res.send({
       status: 'ok',
       data: {

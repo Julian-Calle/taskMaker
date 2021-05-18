@@ -4,16 +4,19 @@ const deleteAllCheckedTasks = async (req, res, next) => {
   try {
     connection = await req.app.locals.getDB();
 
-    //Falta poner que solo el propio usuario pueda modificarlo
-
+    //Solo el propietario puede elminiarlo
+    if (req.selectedTask.userId !== req.user.id) {
+      throw createError('Solo puedes borrar la task el propietario');
+    }
     const [task] = await connection.query(
       `
+      DELETE FROM membersList WHERE taskId = ?;
           DELETE * FROM tasks WHERE checked=1; 
           `
     );
     res.send({
-      status: "ok",
-      data: `El "task" con id ${task_id} ha sido borrado`,
+      status: 'ok',
+      data: `Las task checkeadas han sido borradas`,
     });
   } catch (error) {
     next(error);

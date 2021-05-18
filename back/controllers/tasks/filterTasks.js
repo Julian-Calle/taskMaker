@@ -9,13 +9,13 @@ const filterTasks = async (req, res, next) => {
 
     const [results] = await connection.query(
       `
-    SELECT * FROM tasks 
+    SELECT * FROM tasks t JOIN memberList m ON m.taskId=t.id
     WHERE 
-        (type=? OR ?) AND 
-        (color=? OR ?)  AND 
-        (checked=? OR ?) AND  
-        (timeLimit=? OR ?) AND 
-        userId=?
+        (t.type=? OR ?) AND 
+        (t.color=? OR ?)  AND 
+        (t.checked=? OR ?) AND  
+        (t.timeLimit=? OR ?) AND 
+        m.userId=?
     ORDER BY  ? ?
         ;
     `,
