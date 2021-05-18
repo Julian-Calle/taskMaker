@@ -112,8 +112,8 @@ app.get(
 //URL ejemplo: http://localhost:3000/tasks/kickOut/:taskId/:invitedUserId"
 app.delete(
   "/tasks/kickOut/:taskId/:invitedUserId",
-  ifTaskExists,
   isAuthorized,
+  ifTaskExists,
   isCreator,
   ifInvitedUserExist,
   kickOut
