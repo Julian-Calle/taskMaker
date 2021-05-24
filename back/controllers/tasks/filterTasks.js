@@ -4,12 +4,12 @@ const filterTasks = async (req, res, next) => {
   try {
     connection = await req.app.locals.getDB();
     let { type, color, checked, timeLimit, order, direction } = req.query;
-    const orderBy = order ? order : 'id';
-    const orderDirection = direction ? direction : 'ASC';
+    const orderBy = order ? order : "id";
+    const orderDirection = direction ? direction : "ASC";
 
     const [results] = await connection.query(
       `
-    SELECT * FROM tasks t JOIN memberList m ON m.taskId=t.id
+    SELECT * FROM tasks t JOIN membersList m ON m.taskId=t.id
     WHERE 
         (t.type=? OR ?) AND 
         (t.color=? OR ?)  AND 
@@ -36,7 +36,7 @@ const filterTasks = async (req, res, next) => {
     console.log(results);
     console.log(req.userId);
     res.send({
-      status: 'ok',
+      status: "ok",
       data: [...results],
     });
   } catch (error) {

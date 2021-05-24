@@ -4,7 +4,7 @@ import {
   requestMethods,
 } from "../shared/utils/fetchFunctions";
 const endpoints = {
-  getAllPacks: "/packs",
+  getAllTasks: "/tasks",
   createTask: "/tasks",
   TasksTypes: "/tasks/types",
   sendTaskToOtherUser: "/tasks/send/",
@@ -12,14 +12,14 @@ const endpoints = {
   kickOutInvitedUSer: "tasks/kickOut/",
 };
 
-export async function getAllPacks() {
-  const response = await fetchApi(`${endpoints.getAllPacks}`, {
+export async function getTask() {
+  const response = await fetchApi(`${endpoints.getAllTasks}`, {
     method: requestMethods.get,
   });
   if (response.status === "ok") {
     return response.data;
   }
-  console.log(response);
+  // console.log(response);
 }
 
 export async function newTask(task, color, type, timeLimit) {
