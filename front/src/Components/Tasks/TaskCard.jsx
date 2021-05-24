@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../../css/tasks.css";
 
 
+const test =(e)=>{
+console.log(e.target);
+}
+
 export default function TaskCard({taksList}) {
 
   
@@ -14,7 +18,7 @@ export default function TaskCard({taksList}) {
           <div  key = {task.id} className="cardTask">
           <div className="colorTask" style ={{backgroundColor: `${task.color}`}}>{task.color}</div>
           <div className="actionTasks">
-          <i className="fa fa-arrow-circle-left fa-lg"></i>
+          <i onClick={test} className="fa fa-arrow-circle-left fa-lg"></i>
           <i className="fa fa-arrow-circle-right fa-lg"></i>
           <i className="fa fa-arrow-circle-right fa-lg"></i>
           </div>
