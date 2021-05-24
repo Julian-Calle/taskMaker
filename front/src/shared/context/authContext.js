@@ -1,9 +1,8 @@
 import React from 'react';
 import decodeTokenData from '../utils/decodeTokenData.js';
 import { useState } from 'react';
-import { login, signUpApi } from '../../http/users';
+import { login } from '../../https/users';
 import { useHistory } from 'react-router-dom';
-
 // 1 Creamos el contexto y exportamos para usar en el hook
 export const AuthContext = React.createContext();
 const AuthContextProvider = AuthContext.Provider;
@@ -28,7 +27,6 @@ export function AuthProvider({ children }) {
     const tokenObject = decodeTokenData(loginData);
     setUserData(tokenObject);
     setIsUserLogged(true);
-    console.log(userData);
     localStorage.setItem('token', loginData);
     history.push('/');
     return tokenObject;
