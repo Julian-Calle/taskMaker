@@ -1,6 +1,6 @@
 import useAuth from '../shared/hooks/useAuth';
 import Login from '../Components/user/Login';
-import Completed from '../Components/Tasks/Completed';
+import Stamp from '../Components/Tasks/Stamp';
 
 export default function Home() {
   const { signIn } = useAuth();
@@ -8,7 +8,8 @@ export default function Home() {
   return (
     <div>
       <Login onSubmit={signIn} />
-      <Completed></Completed>
+      <Stamp color={'green'} text="DONE" />
+      <Stamp color={'red'} text="ALARM" />
     </div>
   );
 }
