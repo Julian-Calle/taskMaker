@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import TaskCard from '../Components/Tasks/TaskCard';
-import { getAllPacks } from '../https/tasks';
+import { getTask } from '../https/tasks';
+
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    const load = async () => {
-      const data = await getAllPacks();
+    const getAllTasks = async () => {
+      const data = await getTask();
+      setTasks(data)
     };
-    load();
-  });
-
+    getAllTasks();
+  },[]);
+  
+  
   return (
     <section className="tasksContainer">
-      <TaskCard />
+      <TaskCard taksList={tasks} />
     </section>
   );
 }

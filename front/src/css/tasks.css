@@ -1,0 +1,33 @@
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+.cardTask{
+display: flex;
+flex-direction: column;
+border: 2px solid black;
+border-radius: 10px;
+margin: .5rem;
+width: 20rem;
+
+}
+.colorTask{
+    border-radius:8px 8px 0 0;
+   
+
+}
+.contentTask{
+/* display: block; */
+margin: 1rem 1.5rem;
+}
+.actionTasks{
+margin:.3rem .5rem;
+    display: flex;
+    gap:.5rem;
+}
+.cardTaskContainer{
+    display: flex;
+    flex-wrap: wrap;
+}

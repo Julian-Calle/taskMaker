@@ -4,8 +4,8 @@ const filterTasks = async (req, res, next) => {
   try {
     connection = await req.app.locals.getDB();
     let { type, color, checked, timeLimit, order, direction } = req.query;
-    const orderBy = order ? order : 'id';
-    const orderDirection = direction ? direction : 'ASC';
+    const orderBy = order ? order : "id";
+    const orderDirection = direction ? direction : "ASC";
 
     const [results] = await connection.query(
       `
@@ -34,7 +34,7 @@ const filterTasks = async (req, res, next) => {
       ]
     );
     res.send({
-      status: 'ok',
+      status: "ok",
       data: [...results],
     });
   } catch (error) {
