@@ -9,13 +9,13 @@ const test =(e)=>{
 
 export default function TaskCard({taksList}) {
   
-  const [editModal,setEditModal]= useState(true)
+  const [editModal,setEditModal]= useState(false)
   
 
   return( 
     
     <div className="cardTaskContainer">
-<Modal active ={true}></Modal>
+<Modal active ={editModal}></Modal>
     {taksList.map((task,index)=>{
           return (
             
