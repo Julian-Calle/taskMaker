@@ -21,13 +21,19 @@ width: 20rem;
 .contentTask{
 /* display: block; */
 margin: 1rem 1.5rem;
+flex-grow: 1;
 }
 .actionTasks{
 margin:.3rem .5rem;
     display: flex;
     gap:.5rem;
+    justify-content:flex-end ;
 }
 .cardTaskContainer{
     display: flex;
     flex-wrap: wrap;
+}
+.cardIcon{
+font-size: 25px;
+padding: 0.2rem;
 }

@@ -1,0 +1,35 @@
+.modalContainer{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+/* overflow: auto; */
+
+}
+.modalTitle{
+font-size: 2rem;
+font-weight: 600;
+margin-bottom: 2rem;
+
+}
+.modalBody{
+flex-grow: 1;
+overflow: auto;
+border: black 2px solid;
+}
+.rodal-dialog{
+  border-radius: 20px;
+  /* background-color:#293541 ; */
+}
+
+.ModalButtons{
+display: flex;
+gap: 1rem;
+position: absolute;
+bottom: 10px;
+
+}
+
+.ModalButtons button{
+padding: .2rem;
+}
