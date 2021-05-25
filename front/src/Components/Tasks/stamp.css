@@ -1,0 +1,9 @@
+.center {
+    display: grid;
+    place-items: center;
+    position: relative;
+    height: 4rem;
+    width: 4rem;
+    margin-left: 5rem;
+    margin-top: 5rem;
+}

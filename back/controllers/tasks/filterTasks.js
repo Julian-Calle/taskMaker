@@ -33,8 +33,6 @@ const filterTasks = async (req, res, next) => {
         orderDirection,
       ]
     );
-    console.log(results);
-    console.log(req.userId);
     res.send({
       status: "ok",
       data: [...results],
