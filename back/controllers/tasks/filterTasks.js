@@ -9,7 +9,7 @@ const filterTasks = async (req, res, next) => {
 
     const [results] = await connection.query(
       `
-    SELECT * FROM tasks t JOIN memberList m ON m.taskId=t.id
+    SELECT * FROM tasks t JOIN membersList m ON m.taskId=t.id
     WHERE 
         (t.type=? OR ?) AND 
         (t.color=? OR ?)  AND 
@@ -33,8 +33,6 @@ const filterTasks = async (req, res, next) => {
         orderDirection,
       ]
     );
-    console.log(results);
-    console.log(req.userId);
     res.send({
       status: 'ok',
       data: [...results],
