@@ -39,6 +39,7 @@ export function AuthProvider({ children }) {
         signIn,
         userData,
         isUserLogged,
+        history,
       }}
     >
       {children}
