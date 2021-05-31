@@ -8,6 +8,7 @@ export default function Tasks() {
   useEffect(() => {
     const getAllTasks = async () => {
       const data = await getTask();
+      console.log(data);
       setTasks(data)
     };
     getAllTasks();

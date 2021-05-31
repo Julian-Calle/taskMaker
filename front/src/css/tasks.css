@@ -28,6 +28,7 @@ margin:.3rem .5rem;
     display: flex;
     gap:.5rem;
     justify-content:flex-end ;
+    align-items: center;
 }
 .cardTaskContainer{
     display: flex;
@@ -36,4 +37,12 @@ margin:.3rem .5rem;
 .cardIcon{
 font-size: 25px;
 padding: 0.2rem;
+}
+.checkIcon{
+width: 1.7rem;
+height: 1.7rem;
+}
+.timeLimit{
+    text-align: end;
+padding-right: .4rem;
 }
