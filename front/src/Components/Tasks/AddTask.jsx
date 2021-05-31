@@ -6,7 +6,7 @@ export default function AddTask() {
   const onSubmit = (data) => console.log(data);
   return (
     <form className="taskForm" onSubmit={handleSubmit(onSubmit)}>
-      <input
+      <textarea
         type="text"
         name="task"
         id="task"

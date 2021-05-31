@@ -11,7 +11,7 @@ export default function Home() {
       <Login onSubmit={signIn} />
       {/*<Stamp color={'green'} text="DONE" />
       <Stamp color={'red'} text="ALARM" />*/}
-      <AddTask />
+      {/*<AddTask />*/}
     </div>
   );
 }

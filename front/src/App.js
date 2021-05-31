@@ -13,8 +13,10 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/tasks">Tasks</NavLink>
+        <header className="navBarContainer">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/tasks">Tasks</NavLink>
+        </header>
         <Switch>
           <Route exact path="/">
             <Home />

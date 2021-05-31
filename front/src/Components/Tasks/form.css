@@ -8,6 +8,10 @@
 .textTask {
     height: 4rem;
     width: 100%;
+    overflow: scroll;
+    width: inherit;
+    resize: none;
+    overflow: auto;
 }
 
 .messageError {
