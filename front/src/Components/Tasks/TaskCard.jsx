@@ -42,7 +42,7 @@ export default function TaskCard({taksList}) {
   return( 
     
     <div className="cardTaskContainer">
-      <Modal active ={editModal}  title={"Editar TASK"} body={<EditForm text={taskSelected.task} setTextTask={(value)=>{setTaskSelected(...taskSelected, taskSelected.task=value)}} />} actBtn={true}  btnName="CANCELAR" btnAction={()=>setEditModal(!editModal)} closeAction={()=>setEditModal(!editModal) } 
+      <Modal active ={editModal}  title={"Editar TASK"} body={<EditForm taskInfo={taskSelected} setTask={setTaskSelected} />} actBtn={true}  btnName="CANCELAR" btnAction={()=>setEditModal(!editModal)} closeAction={()=>setEditModal(!editModal) } 
 secBtnAction={()=>{console.log("second")}} ></Modal>
 {/* <Modal active ={editModal} actBtn={true} actSecBtn={true} title={"hola"} closeAction={()=>setEditModal(!editModal) } 
 secBtnName="cancelar" btnName="OK" btnAction={()=>{console.log("fist")}} secBtnAction={()=>{console.log("second")}} body={<h2>hech_T</h2>} ></Modal> */}

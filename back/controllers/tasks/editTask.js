@@ -1,5 +1,5 @@
-const { validator } = require('../../helpers');
-const { editTaskSchema } = require('../../schemas');
+const { validator } = require("../../helpers");
+const { editTaskSchema } = require("../../schemas");
 const editTask = async (req, res, next) => {
   let connection;
   try {
@@ -20,7 +20,7 @@ const editTask = async (req, res, next) => {
       `
     UPDATE tasks SET task=?,checked=?,timeLimit=?,color=?,type=? WHERE
      id=? AND 
-     userId IN (SELECT userId FROM memberList WHERE taskId=?);
+     userId IN (SELECT userId FROM membersList WHERE taskId=?);
     `,
       [
         editedTask,
@@ -35,7 +35,7 @@ const editTask = async (req, res, next) => {
     );
 
     res.send({
-      status: 'ok',
+      status: "ok",
       data: {
         taskId,
         editedTask,

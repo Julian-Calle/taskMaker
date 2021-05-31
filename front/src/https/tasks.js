@@ -108,11 +108,6 @@ export async function editTask({
     body.type = type;
   }
 
-  checked && body.push(checked);
-  timeLimit && body.push(timeLimit);
-  color && body.push(color);
-  type && body.push(type);
-
   const response = await fetchApi(`${endpoints.getAllTasks}${taskId}`, {
     method: requestMethods.put,
     body,

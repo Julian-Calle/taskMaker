@@ -7,9 +7,11 @@ import { getTask } from '../https/tasks';
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [active, setActive] = useState(false);
+
   useEffect(() => {
     const getAllTasks = async () => {
       const data = await getTask();
+      console.log(data);
       setTasks(data);
     };
     getAllTasks();
