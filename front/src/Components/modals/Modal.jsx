@@ -20,10 +20,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 // customStyles	
 // customMaskStyles
 //#03a9f4
-const test= ()=>{
-    console.log("cerrao");
-}
-export default function Modal({active, title,body}) {
+
+export default function Modal({active, title,body,closeAction, btnName, secBtnName,
+  actBtn,actSecBtn, btnAction, secBtnAction, effect}) {
   
   const size400 = useMediaQuery("(min-width:400px)");
   const size500 = useMediaQuery("(min-width:500px)");
@@ -32,14 +31,22 @@ const modalSizeWidth =size500? "500px": size400?'400px':"300px";
 const modalSizeHeight =size500? "500px": size400?'400px':"400px";
 const bodyModalSizeWidth =size500? "450px": size400?'350px':"250px";
 const bodyModalSizeHeight =size500? "370px": size400?'280px':"280px";
+const modalEffect = effect??"zoom";
+const handleFirstAction=()=>{
+if(btnAction)btnAction();
+}
+
+const handleSecondAction=()=>{
+  if(actSecBtn)secBtnAction();
+}
+
 
     return (
 <Rodal
-     
+      
       visible={active}
-      onClose={test}
+      onClose={closeAction}
       closeOnEsc={true}
-      className={"dialogo-reshulon"}
       // width={400}
       // height={400}
       customStyles={{
@@ -47,7 +54,7 @@ const bodyModalSizeHeight =size500? "370px": size400?'280px':"280px";
       height: `${modalSizeHeight}`
       }}
     
-      animation={"rotate"}
+      animation={modalEffect}
     >
       <div className="modalContainer" >
       <header className="modalTitle" >{title}</header>
@@ -56,7 +63,8 @@ const bodyModalSizeHeight =size500? "370px": size400?'280px':"280px";
       </section>
       <section className="ModalButtons">
 
-      <button>OK</button><button>CANCEL</button>
+      { actBtn && <button onClick={handleFirstAction} className="firstBtn modalbtn">{btnName}</button>}
+      { actSecBtn && <button onClick={handleSecondAction} className="secondBtn modalbtn">{secBtnName}</button>}
       </section>
       </div>
     </Rodal>
