@@ -1,18 +1,16 @@
 import { useEffect, useState }  from 'react';
 import "../../css/editForm.css"
 
-export default function EditForm() {
-const [text, setText] = useState("")
-    useEffect(() => {
-        const getTaskContent = async () => {
-            console.log("hola");
-        //   const data = await getTask();
-          
-        };
-        getTaskContent();
-      },[]);
+export default function EditForm({textTask,setTextTask}) {
+
+const handlerChange=(e)=>{
+    setTextTask(e.target.value);
+    console.log(e.target.value);
+}
+
+
     return (
 
-<textarea className="taskContentEditForm"  value={text} />
+<textarea onChange={handlerChange} className="taskContentEditForm" value={textTask} ></textarea>
     )
 }
