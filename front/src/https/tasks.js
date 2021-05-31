@@ -2,21 +2,21 @@ import {
   fetchApi,
   fetchFormData,
   requestMethods,
-} from "../shared/utils/fetchFunctions";
+} from '../shared/utils/fetchFunctions';
 const endpoints = {
-  getAllTasks: "/tasks",
-  createTask: "/tasks",
-  TasksTypes: "/tasks/types",
-  sendTaskToOtherUser: "/tasks/send/",
-  shareTaskToOtherUser: "/tasks/share/",
-  kickOutInvitedUSer: "tasks/kickOut/",
+  getAllTasks: '/tasks',
+  createTask: '/tasks',
+  TasksTypes: '/tasks/types',
+  sendTaskToOtherUser: '/tasks/send/',
+  shareTaskToOtherUser: '/tasks/share/',
+  kickOutInvitedUSer: 'tasks/kickOut/',
 };
 
 export async function getTask() {
   const response = await fetchApi(`${endpoints.getAllTasks}`, {
     method: requestMethods.get,
   });
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   // console.log(response);
@@ -27,7 +27,7 @@ export async function newTask(task, color, type, timeLimit) {
     method: requestMethods.post,
     body: { task, color, type, timeLimit },
   });
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   console.log(response);
@@ -37,7 +37,7 @@ export async function getTasksTypes() {
   const response = await fetchApi(`${endpoints.TasksTypes}`, {
     method: requestMethods.get,
   });
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   console.log(response);
@@ -51,7 +51,7 @@ export async function sendTask(invitedUSerId, email, name) {
       body: { email, name },
     }
   );
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   console.log(response);
@@ -64,7 +64,7 @@ export async function kickOutUser(taskId, invitedUSerId) {
       method: requestMethods.delete,
     }
   );
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   console.log(response);
@@ -77,8 +77,24 @@ export async function shareTaks(taskId, invitedUSerId) {
       method: requestMethods.get,
     }
   );
-  if (response.status === "ok") {
+  if (response.status === 'ok') {
     return response.data;
   }
   console.log(response);
+}
+export async function editTask(task, checked, timeLimit, color, type, taskId) {
+  const body = {};
+  task && body.push(task);
+  checked && body.push(checked);
+  timeLimit && body.push(timeLimit);
+  color && body.push(color);
+  type && body.push(type);
+
+  const response = await fetchApi(`${endpoints.getAllTasks}/${taskId}`, {
+    method: requestMethods.put,
+    body,
+  });
+  if (response.status === 'ok') {
+    return response.data;
+  }
 }
