@@ -23,6 +23,7 @@ export async function getTask() {
 }
 
 export async function newTask(task, color, type, timeLimit) {
+  console.log(timeLimit);
   const response = await fetchApi(`${endpoints.createTask}`, {
     method: requestMethods.post,
     body: { task, color, type, timeLimit },

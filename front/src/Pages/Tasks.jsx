@@ -26,7 +26,7 @@ export default function Tasks() {
       <Modal
         active={active}
         title={'Crear TASK'}
-        body={<AddTask />}
+        body={<AddTask setActive={setActive} />}
         actBtn={true}
         btnName="CANCELAR"
         btnAction={() => setActive(false)}
