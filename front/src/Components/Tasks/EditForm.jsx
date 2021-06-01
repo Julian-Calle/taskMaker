@@ -3,42 +3,35 @@ import { useForm } from 'react-hook-form';
 
 import "../../css/editForm.css"
 const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
-export default function EditForm({taskInfo,setTask}) {
-    const { register, errors, handleSubmit } = useForm(    {
-        defaultValues: taskInfo
-      });
-// const handlerChange=(e)=>{
-//     setTextTask(e.target.value);
-//     console.log(e.target.value);
-// }
-// const onSubmit = (data) => {
-//     console.log(data);
-//     const load = async () => {
-//       await newTask(
-//         data.task,
-//         data.taskColor,
-//         data.typeTask,
-//         data.dateLimitTask
-//       );
-//     };
-//     load();
-//     setActive(false);
-//   };
+
+const addZero=(value)=>{ 
+  return ( value > 9)?value:`0${value}`;
+}
+const getDateInFormat =(dateTochange)=>{
+const date =dateTochange?.split("T")[0]
+console.log(date);
+return date;
+}
+
+
+export default function EditForm({taskInfo,setTask,updateListOfTask}) {
+const initialValues={...taskInfo, timeLimit:getDateInFormat(taskInfo.timeLimit)}
+
+    const { register, errors, handleSubmit } = useForm(    
+      // {
+      //   defaultValues: initialValues
+      // }
+      );
+
 
 const taskChange = (data) => {
-    setTask({...taskInfo,task:data.task})
-    console.log(data);
+  setTask({...taskInfo,...data})
+  updateListOfTask();
+    console.log({...taskInfo,...data});
+    updateListOfTask();
 }
 
-const colorChange = (data) => {
-    setTask({...taskInfo,color:data.taskColor})
-    console.log(data);
-}
 
-const typeChange = (data) => {
-    setTask({...taskInfo,type:data.typeTask})
-    console.log(data);
-}
 
 const dateChange = (data) => {
     setTask({...taskInfo,timeLimit:data.dateLimitTask})
@@ -46,7 +39,7 @@ const dateChange = (data) => {
 }
     return (
 
-        <form  className="taskForm" >
+        <form  className="taskForm"  onChange={handleSubmit(taskChange)}>
         <fieldset className="formContainer">
           <textarea
             type="text"
@@ -54,16 +47,17 @@ const dateChange = (data) => {
             placeholder="Introduce la tarea..."
             className="textTask"
             value={taskInfo.task}
-            onChange={handleSubmit(taskChange)}
+            
             ref={register({ required: true, minLength: 1 })}
+            onChange={handleSubmit(taskChange)}
           ></textarea>
           {errors.task && (
             <p className="messageError">*Es obligatorio introducir una tarea</p>
           )}
-          <select name="taskColor"  onChange={handleSubmit(colorChange)} ref={register()}>
-              <option style={{ backgroundColor: taskInfo.color }} selected value={taskInfo.color}  >{taskInfo.color} </option>
-
-            {colors.filter((color)=>color!==taskInfo.color).map((color, index) => {
+          <select name="color"   ref={register()} style={{ backgroundColor: taskInfo.color }} value={taskInfo.color} onChange={handleSubmit(taskChange)}>
+              {/* <option style={{ backgroundColor: taskInfo.color }} selected value={taskInfo.color}  >{taskInfo.color} </option> */}
+              {/* .filter((color)=>color!==taskInfo.color) */}
+            {colors.map((color, index) => {
                
               return (
                 
@@ -74,24 +68,25 @@ const dateChange = (data) => {
           </select>
           <input
             type="text"
-            name="typeTask"
+            name="type"
             placeholder="Tipo de tarea"
-            onChange={handleSubmit(typeChange)}
+            onChange={handleSubmit(taskChange)}
             ref={register()}
-            value={taskInfo.type}
+            
+            value={(taskInfo.type)??""}
           />
           <fieldset>
             <label htmlFor="dateLimitTask">Fecha límite </label>
             <input
               type="date"
-              name="dateLimitTask"
-              onChange={handleSubmit(dateChange)}
+              name="timeLimit"
+              onChange={handleSubmit(taskChange)}
+               value={initialValues.timeLimit??""}
               ref={register()}
             />
           </fieldset>
         </fieldset>
-        <fieldset className="addButtonContainer">
-        </fieldset>
+
       </form>
     )
 }
