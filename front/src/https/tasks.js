@@ -10,6 +10,7 @@ const endpoints = {
   sendTaskToOtherUser: '/tasks/send/',
   shareTaskToOtherUser: '/tasks/share/',
   kickOutInvitedUSer: 'tasks/kickOut/',
+  deleteTask: '/tasks',
 };
 
 export async function getTask() {
@@ -114,5 +115,14 @@ export async function editTask({
   });
   if (response.status === 'ok') {
     return response.data;
+  }
+}
+//"/tasks/:taskId"
+export async function deleteTask(taskId) {
+  const response = await fetchApi(`${endpoints.deleteTask}/${taskId}`, {
+    method: requestMethods.delete,
+  });
+  if (response.status === 'ok') {
+    return response.message;
   }
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getTasksTypes, newTask } from '../../https/tasks';
-
 import './form.css';
+
 const AddTask = function ({ setActive }) {
   const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
   const [taskTypes, setTaskTipyes] = useState([]);
@@ -29,9 +29,7 @@ const AddTask = function ({ setActive }) {
   };
   const handleTypeTask = (e) => {
     e.target.value === '' ? setNewTypeInput(true) : setNewTypeInput(false);
-    console.log(e.target.value);
   };
-  console.log(newTypeInput);
   return (
     <form className="taskForm" onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="formContainer">
@@ -51,7 +49,11 @@ const AddTask = function ({ setActive }) {
           <select name="taskColor" id="taskColor" ref={register()}>
             {colors.map((color, index) => {
               return (
-                <option style={{ backgroundColor: color }} value={color}>
+                <option
+                  key={`color${index}`}
+                  style={{ backgroundColor: color }}
+                  value={color}
+                >
                   {color}
                 </option>
               );
@@ -67,7 +69,11 @@ const AddTask = function ({ setActive }) {
             onChange={handleTypeTask}
           >
             {taskTypes.map((taskType, index) => {
-              return <option value={taskType}>{taskType}</option>;
+              return (
+                <option key={`type${index}`} value={taskType}>
+                  {taskType}
+                </option>
+              );
             })}
             <option value="">Nuevo tipo...</option>
           </select>
@@ -80,9 +86,8 @@ const AddTask = function ({ setActive }) {
             />
           )}
         </fieldset>
-
         <fieldset>
-          <label htmlFor="dateLimitTask">Fecha límite </label>
+          <label htmlFor="dateLimitTask">Fecha límite: </label>
           <input
             type="date"
             name="dateLimitTask"
