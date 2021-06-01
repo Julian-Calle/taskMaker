@@ -1,14 +1,21 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { newTask } from '../../https/tasks';
-import { useHistory } from 'react-router-dom';
-
+import { getTasksTypes, newTask } from '../../https/tasks';
 import './form.css';
+
 const AddTask = function ({ setActive }) {
   const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
+  const [taskTypes, setTaskTipyes] = useState([]);
+  const [newTypeInput, setNewTypeInput] = useState(false);
+  useEffect(() => {
+    const load = async () => {
+      const response = await getTasksTypes();
+      setTaskTipyes(response.filter((value) => value !== null));
+    };
+    load();
+  }, []);
   const { register, errors, handleSubmit } = useForm();
-  const history = useHistory();
   const onSubmit = (data) => {
-    console.log(data);
     const load = async () => {
       await newTask(
         data.task,
@@ -19,6 +26,9 @@ const AddTask = function ({ setActive }) {
     };
     load();
     setActive(false);
+  };
+  const handleTypeTask = (e) => {
+    e.target.value === '' ? setNewTypeInput(true) : setNewTypeInput(false);
   };
   return (
     <form className="taskForm" onSubmit={handleSubmit(onSubmit)}>
@@ -34,24 +44,50 @@ const AddTask = function ({ setActive }) {
         {errors.task && (
           <p className="messageError">*Es obligatorio introducir una tarea</p>
         )}
-        <select name="taskColor" id="taskColor" ref={register()}>
-          {colors.map((color, index) => {
-            return (
-              <option style={{ backgroundColor: color }} value={color}>
-                {color}
-              </option>
-            );
-          })}
-        </select>
-        <input
-          type="text"
-          name="typeTask"
-          id="typeTask"
-          placeholder="Tipo de tarea"
-          ref={register()}
-        />
         <fieldset>
-          <label htmlFor="dateLimitTask">Fecha límite </label>
+          <label htmlFor="taskColor">Color: </label>
+          <select name="taskColor" id="taskColor" ref={register()}>
+            {colors.map((color, index) => {
+              return (
+                <option
+                  key={`color${index}`}
+                  style={{ backgroundColor: color }}
+                  value={color}
+                >
+                  {color}
+                </option>
+              );
+            })}
+          </select>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="typeTask">Tipo: </label>
+          <select
+            name="taskType"
+            id="taskType"
+            ref={register()}
+            onChange={handleTypeTask}
+          >
+            {taskTypes.map((taskType, index) => {
+              return (
+                <option key={`type${index}`} value={taskType}>
+                  {taskType}
+                </option>
+              );
+            })}
+            <option value="">Nuevo tipo...</option>
+          </select>
+          {newTypeInput && (
+            <input
+              type="text"
+              name="typeTask"
+              placeholder="Nuevo tipo"
+              ref={register({ required: true })}
+            />
+          )}
+        </fieldset>
+        <fieldset>
+          <label htmlFor="dateLimitTask">Fecha límite: </label>
           <input
             type="date"
             name="dateLimitTask"
