@@ -1,20 +1,16 @@
-import { useEffect, useState }  from 'react';
+
 import { useForm } from 'react-hook-form';
 
 import "../../css/editForm.css"
 const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
 
-const addZero=(value)=>{ 
-  return ( value > 9)?value:`0${value}`;
-}
 const getDateInFormat =(dateTochange)=>{
 const date =dateTochange?.split("T")[0]
-console.log(date);
 return date;
 }
 
 
-export default function EditForm({taskInfo,setTask,updateListOfTask}) {
+export default function EditForm({taskInfo,setTask,updateTask}) {
 const initialValues={...taskInfo, timeLimit:getDateInFormat(taskInfo.timeLimit)}
 
     const { register, errors, handleSubmit } = useForm(    
@@ -23,20 +19,12 @@ const initialValues={...taskInfo, timeLimit:getDateInFormat(taskInfo.timeLimit)}
       // }
       );
 
-
 const taskChange = (data) => {
-  setTask({...taskInfo,...data})
-  updateListOfTask();
-    console.log({...taskInfo,...data});
-    updateListOfTask();
+  setTask({...taskInfo,...data});
+  updateTask({...taskInfo,...data})
+    
 }
 
-
-
-const dateChange = (data) => {
-    setTask({...taskInfo,timeLimit:data.dateLimitTask})
-    console.log(data);
-}
     return (
 
         <form  className="taskForm"  onChange={handleSubmit(taskChange)}>

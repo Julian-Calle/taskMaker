@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { deleteTask, editTask } from '../../https/tasks';
 import '../../css/tasks.css';
 import Modal from '../modals/Modal';
 import ButtonIcon from '../utils';
 import EditForm from './EditForm';
 import '../../css/deleteForm.css';
-const test = (e) => {
-  console.log(e.target);
-};
+
 
 export default function TaskCard({ taksList,updateListOfTask }) {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  
   const defaultTaskValue = {
     task: '',
     checked: false,
@@ -20,19 +19,19 @@ export default function TaskCard({ taksList,updateListOfTask }) {
     type: null,
     taskId: null,
   };
+  
   const [taskSelected, setTaskSelected] = useState(defaultTaskValue);
-  useEffect(() => {
-    const updateTask = async () => {
-      const data = await editTask(taskSelected);
-      // setTasks(data)
-      // console.log(data);
-    };
-    updateTask();
-  }, [taskSelected]);
+
+async function updateTask(taskEdited){
+  await editTask(taskEdited);
+  updateListOfTask();
+
+}
 
   const activeEditModal = (taskToSelect) => {
     setTaskSelected(taskToSelect);
     setEditModal(!editModal);
+  
   };
   const activeDeleteModal = (selectedTask) => {
     setTaskSelected(selectedTask);
@@ -42,9 +41,9 @@ export default function TaskCard({ taksList,updateListOfTask }) {
   return (
     <div className="cardTaskContainer">
       <Modal active ={editModal}  title={"Editar TASK"} 
-      body={<EditForm taskInfo={taskSelected} setTask={setTaskSelected} updateListOfTask={updateListOfTask}/>} 
+      body={<EditForm taskInfo={taskSelected} setTask={setTaskSelected} updateTask={updateTask}/>} 
       actBtn={true}  btnName="CANCELAR" btnAction={()=>setEditModal(!editModal)} closeAction={()=>setEditModal(!editModal) } 
-secBtnAction={()=>{console.log("second")}} ></Modal>
+      secBtnAction={()=>{console.log("second")}} ></Modal>
       {/* <Modal active ={editModal} actBtn={true} actSecBtn={true} title={"hola"} closeAction={()=>setEditModal(!editModal) } 
 secBtnName="cancelar" btnName="OK" btnAction={()=>{console.log("fist")}} secBtnAction={()=>{console.log("second")}} body={<h2>hech_T</h2>} ></Modal> */}
       <Modal
@@ -69,10 +68,10 @@ secBtnName="cancelar" btnName="OK" btnAction={()=>{console.log("fist")}} secBtnA
         actSecBtn={true}
         secBtnName="CANCELAR"
       ></Modal>
-      {taksList.map((task, index) => {
+      {taksList.map((task) => {
         const checkState = task.checked ? true : false;
         const taskLimitDate = new Date(task.timeLimit).toLocaleDateString();
-        console.log(taskLimitDate);
+        // console.log(taskLimitDate);
         return (
           <div key={task.id} className="cardTask">
             <div
