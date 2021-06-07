@@ -94,6 +94,13 @@ const dateValidator = (varName) => {
     });
 };
 
+const dateValidatorEdit = (varName) => {
+  return Joi.date().messages({
+    "date.base": `${varName}  debe ser de tipo 'date'`,
+    "date.empty": `${varName}  no puede estar vacío`,
+  });
+};
+
 const createTaskSchema = Joi.object().keys({
   task: Joi.string().required().min(5).max(500).messages({
     "string.base": `task debe ser de tipo 'string'`,
@@ -128,7 +135,7 @@ const loginSchema = Joi.object().keys({
 const editTaskSchema = Joi.object().keys({
   task: maxTextValidator("task", 500),
   checked: numBetweenOneAndZeroValidator("checked"),
-  timeLimit: dateValidator("timeLimit"),
+  timeLimit: dateValidatorEdit("timeLimit"),
   color: Joi.string().valid("blue", "red", "yellow", "grey", "pink", "white"),
   type: maxTextValidator("type", 50),
 });
