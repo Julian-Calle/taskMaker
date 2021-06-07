@@ -2,9 +2,11 @@
 import { useForm } from 'react-hook-form';
 
 import "../../css/editForm.css"
-const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
+const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink']; 
+
 
 const getDateInFormat =(dateTochange)=>{
+  // console.log(dateTochange);
 const date =dateTochange?.split("T")[0]
 return date;
 }
@@ -20,8 +22,11 @@ const initialValues={...taskInfo, timeLimit:getDateInFormat(taskInfo.timeLimit)}
       );
 
 const taskChange = (data) => {
-  setTask({...taskInfo,...data});
-  updateTask({...taskInfo,...data})
+  if(new Date(data.timeLimit) > new Date()){
+    setTask({...taskInfo,...data});
+    updateTask({...taskInfo,...data})
+    
+  }
     
 }
 
@@ -38,7 +43,7 @@ const taskChange = (data) => {
             
             ref={register({ required: true, minLength: 1 })}
             onChange={handleSubmit(taskChange)}
-          ></textarea>
+          />
           {errors.task && (
             <p className="messageError">*Es obligatorio introducir una tarea</p>
           )}
@@ -72,6 +77,7 @@ const taskChange = (data) => {
                value={initialValues.timeLimit??""}
               ref={register()}
             />
+        
           </fieldset>
         </fieldset>
 
