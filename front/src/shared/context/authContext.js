@@ -32,11 +32,18 @@ export function AuthProvider({ children }) {
     return tokenObject;
   };
 
+  //Método para hacer logout
+  const signOut = async () => {
+    localStorage.removeItem('token');
+    history.push('/');
+  };
+
   // 4 devolvemos el provider metiendole dentro los children
   return (
     <AuthContextProvider
       value={{
         signIn,
+        signOut,
         userData,
         isUserLogged,
         history,
