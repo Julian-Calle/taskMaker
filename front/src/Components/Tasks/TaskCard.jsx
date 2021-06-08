@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { deleteTask, editTask } from '../../https/tasks';
+import io from "socket.io-client";
 import '../../css/tasks.css';
 import Modal from '../modals/Modal';
 import ButtonIcon from '../utils';
@@ -10,7 +11,26 @@ import '../../css/deleteForm.css';
 export default function TaskCard({ taksList,updateListOfTask }) {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [socket, setSocket] = useState();
+  const [change, setChange] = useState(true);
   
+
+  useState(() => {
+    const newSocket = io.connect("http://localhost:3000", {
+      auth: { taskId: 1 },
+      multiplex:false
+    });
+    setSocket(newSocket);
+
+    return () => newSocket.close();
+  }, []);
+
+  socket?.on("start", (data) => {
+    console.log(data);
+    // setId(data);
+  });
+
+
   const defaultTaskValue = {
     task: '',
     checked: false,
@@ -37,11 +57,11 @@ async function updateTask(taskEdited){
     setTaskSelected(selectedTask);
     setDeleteModal(true);
   };
-
+  
   return (
     <div className="cardTaskContainer">
       <Modal active ={editModal}  title={"Editar TASK"} 
-      body={<EditForm taskInfo={taskSelected} setTask={setTaskSelected} updateTask={updateTask}/>} 
+      body={<EditForm taskInfo={taskSelected} setTask={setTaskSelected} updateTask={updateTask} updateListOfTask={updateListOfTask}  socket={socket} change={change} setChange={setChange}/>} 
       actBtn={true}  btnName="CANCELAR" btnAction={()=>setEditModal(!editModal)} closeAction={()=>setEditModal(!editModal) } 
       secBtnAction={()=>{console.log("second")}} ></Modal>
       {/* <Modal active ={editModal} actBtn={true} actSecBtn={true} title={"hola"} closeAction={()=>setEditModal(!editModal) } 

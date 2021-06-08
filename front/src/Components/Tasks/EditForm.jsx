@@ -12,8 +12,22 @@ return date;
 }
 
 
-export default function EditForm({taskInfo,setTask,updateTask}) {
+export default function EditForm({taskInfo,setTask,updateTask,socket,change,setChange,updateListOfTask}) {
 const initialValues={...taskInfo, timeLimit:getDateInFormat(taskInfo.timeLimit)}
+
+
+// socket.off('newChange', doThisOnlyOnce).on('MY_EVENT', doThisOnlyOnce);
+socket?.on("newChange", (data) => {
+  if(change){
+  
+    setChange(false)
+    console.log(data);
+    setTask(data);
+    updateListOfTask();
+  }
+  // socket.removeAllListeners()
+});
+
 
     const { register, errors, handleSubmit } = useForm(    
       // {
@@ -25,7 +39,7 @@ const taskChange = (data) => {
   if(new Date(data.timeLimit) > new Date()){
     setTask({...taskInfo,...data});
     updateTask({...taskInfo,...data})
-    
+    socket?.emit("edition",{...taskInfo,...data})
   }
     
 }
