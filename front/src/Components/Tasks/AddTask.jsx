@@ -5,12 +5,12 @@ import './form.css';
 
 const AddTask = function ({ setActive }) {
   const colors = ['white', 'blue', 'red', 'yellow', 'grey', 'pink'];
-  const [taskTypes, setTaskTipyes] = useState([]);
+  const [taskTypes, setTaskTypes] = useState([]);
   const [newTypeInput, setNewTypeInput] = useState(false);
   useEffect(() => {
     const load = async () => {
       const response = await getTasksTypes();
-      setTaskTipyes(response.filter((value) => value !== null));
+      setTaskTypes(response.filter((value) => value !== null));
     };
     load();
   }, []);

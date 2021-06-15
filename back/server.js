@@ -94,7 +94,7 @@ app.delete("/tasks/:taskId", deleteAllCheckedTasks);
 
 //PUT - Editar una task
 //URL ejemplo: http://localhost:3000/tasks/3
-app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isUser, editTask); //todo hay que cambiarla para decidir que hacer en caso de que sea compartida
+app.put("/tasks/:taskId", isAuthorized, ifTaskExists, isMember, editTask);
 
 //GET - Filtrar tasks
 //URL ejemplo: http://localhost:3000/tasks/2

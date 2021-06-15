@@ -44,6 +44,8 @@ export default function TaskCard({ taksList,updateListOfTask }) {
 
 async function updateTask(taskEdited){
   await editTask(taskEdited);
+  console.log("en taskCard");
+    console.log(taskEdited);
   updateListOfTask();
 
 }

@@ -11,7 +11,7 @@ const isMember = async (req, res, next) => {
     //valido los valores del body
 
     await validator(idSchema, taskId);
-
+    console.log(req.userId, taskId);
     const [result] = await connection.query(
       `
     SELECT 	t.id "id",t.task "task",t.checked "checked",t.timeLimit "timeLimit",t.color "color",t.type "type"   

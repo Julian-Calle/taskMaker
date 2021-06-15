@@ -1,11 +1,11 @@
-const apiUrl = 'http://localhost:3000';
+const apiUrl = "http://localhost:3000";
 
 //Métodos empleados en nuestras peticiones
 export const requestMethods = {
-  post: 'POST',
-  get: 'GET',
-  put: 'PUT',
-  delete: 'DELETE',
+  post: "POST",
+  get: "GET",
+  put: "PUT",
+  delete: "DELETE",
 };
 
 /**
@@ -17,10 +17,13 @@ export const requestMethods = {
 
 export async function fetchApi(path, { body, method }) {
   //const { setErrorApi, redirect } = useAuth();
-  const token = localStorage.getItem('token');
-  const headers = new Headers({ 'Content-Type': 'application/json' });
+  console.log("en body");
+  console.log(body);
+
+  const token = localStorage.getItem("token");
+  const headers = new Headers({ "Content-Type": "application/json" });
   if (token) {
-    headers.append('Authorization', token);
+    headers.append("Authorization", token);
   }
   const request = await fetch(`${apiUrl}${path}`, {
     headers,
@@ -29,6 +32,7 @@ export async function fetchApi(path, { body, method }) {
   });
   const data = await request.json();
   //if (data.status === "Error") throw data.message;
+  console.log(data);
   return data;
 }
 
@@ -41,9 +45,9 @@ export async function fetchApi(path, { body, method }) {
  */
 
 export async function fetchFormData(path, { body, method }) {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const headers = new Headers();
-  headers.append('Authorization', token);
+  headers.append("Authorization", token);
 
   return await fetch(`${apiUrl}${path}`, { method, headers, body });
 }

@@ -23,7 +23,9 @@ export default function Tasks() {
 
   useEffect(() => {
     updateListOfTask()
-    
+console.log("marron");
+
+    return setTasks([])
   }, []);
 
   const handleClick = () => {

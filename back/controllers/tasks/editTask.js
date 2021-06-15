@@ -6,7 +6,8 @@ const editTask = async (req, res, next) => {
     connection = await req.app.locals.getDB();
     const { task, checked, timeLimit, color, type } = req.body;
     const { taskId } = req.params;
-
+    console.log("edit task");
+    console.log(task, checked, timeLimit, color, type);
     //valido los valores del body
     await validator(editTaskSchema, req.body);
 
@@ -19,8 +20,7 @@ const editTask = async (req, res, next) => {
     await connection.query(
       `
     UPDATE tasks SET task=?,checked=?,timeLimit=?,color=?,type=? WHERE
-     id=? AND 
-     userId IN (SELECT userId FROM membersList WHERE taskId=?);
+     id=? 
     `,
       [
         editedTask,
@@ -28,8 +28,6 @@ const editTask = async (req, res, next) => {
         editedTimeLimit,
         editColor,
         editedType,
-        taskId,
-        req.userId,
         taskId,
       ]
     );

@@ -30,13 +30,15 @@ socket?.on("newChange", (data) => {
 
 
     const { register, errors, handleSubmit } = useForm(    
-      // {
-      //   defaultValues: initialValues
-      // }
+      {
+        defaultValues: initialValues
+      }
       );
 
 const taskChange = (data) => {
   if(new Date(data.timeLimit) > new Date()){
+console.log("en edit form");
+    console.log({...taskInfo,...data});
     setTask({...taskInfo,...data});
     updateTask({...taskInfo,...data})
     socket?.emit("edition",{...taskInfo,...data})
